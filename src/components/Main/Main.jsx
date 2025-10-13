@@ -1,4 +1,4 @@
-import Column from "./Column/Column"
+import Column from "../Column/Column"
 
 function Main() {
     return (
