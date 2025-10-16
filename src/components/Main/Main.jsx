@@ -1,16 +1,18 @@
 import Column from "../Column/Column"
+import CardLoader from "../CardLoader/CardLoader";
 
-function Main() {
+function Main({loading}) {
     return (
       <main className="main">
         <div className="container">
           <div className="main__block">
             <div className="main__content">
-              <Column title="Без статуса" />
-              <Column title="Нужно сделать" />
-              <Column title="В работе" />
-              <Column title="Тестирование" />
-              <Column title="Готово" />
+
+            {loading ? <CardLoader /> :
+            ["Без статуса", "Нужно сделать", "В работе", "Тестирование", "Готово"].map((title, id)=>(
+                <Column loading={loading} title={title} key={id} />
+            ))}
+
             </div>
           </div>
         </div>               

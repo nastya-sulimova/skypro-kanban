@@ -777,8 +777,13 @@ body {
   margin: -6px 0 0 5px;
   padding: 0;
 }
+._hover02 {
+  border: none;
+  background-color: transparent;
+  width: 106px;
+}
 .header__pop-user-set {
-  display: none;
+  display: block;
   position: absolute;
   top: 61px;
   right: 0;
@@ -791,6 +796,21 @@ body {
   padding: 34px;
   text-align: center;
   z-index: 2;
+}
+
+.pop-user-set__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #94A6BE;
+}
+
+.pop-user-set__close:hover {
+  color: #000;
 }
 
 .main {
@@ -1087,4 +1107,12 @@ body {
   .pop-exit__form-group {
     display: block;
   }
+}
+
+.cardLoader{
+  text-align: center;
+  color: rgba(148, 166, 190, 1);
+  font-size: 14px;
+  font-weight: 400;
+  padding-top: 30px;
 }

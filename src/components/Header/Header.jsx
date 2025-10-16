@@ -1,4 +1,12 @@
+import { useState } from "react"
+
 function Header() {
+
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+  const toggleUserMenu = () => {
+    setIsUserMenuOpen(!isUserMenuOpen);
+  };
     return (
       <header className="header">
         <div className="container">
@@ -20,28 +28,29 @@ function Header() {
                 >
                   <a href="#popNewCard">Создать новую задачу</a>
                 </button>
-                <a href="#user-set-target" className="header__user _hover02">
-                  Ivan Ivanov
-                </a>
-                <div
-                  className="header__pop-user-set pop-user-set"
-                  id="user-set-target"
-                >
-                  {/* <!-- <a href="">x</a> --> */}
-                  <p className="pop-user-set__name">Ivan Ivanov</p>
-                  <p className="pop-user-set__mail">ivan.ivanov@gmail.com</p>
-                  <div className="pop-user-set__theme">
-                    <p>Темная тема</p>
-                    <input
-                      type="checkbox"
-                      className="checkbox"
-                      name="checkbox"
-                    />
+
+                <button className="header__user _hover02" onClick={toggleUserMenu}>Ivan Ivanov</button>
+                
+                {isUserMenuOpen && (
+                  <div className="header__pop-user-set pop-user-set">
+                    <button 
+                      className="pop-user-set__close" 
+                      onClick={toggleUserMenu}
+                    >
+                      ×
+                    </button>
+                    <p className="pop-user-set__name">Ivan Ivanov</p>
+                    <p className="pop-user-set__mail">ivan.ivanov@gmail.com</p>
+                    <div className="pop-user-set__theme">
+                      <p>Темная тема</p>
+                      <input type="checkbox" className="checkbox" name="checkbox" />
+                    </div>
+                    <button type="button" className="_hover03">
+                      <a href="#popExit">Выйти</a>
+                    </button>
                   </div>
-                  <button type="button" className="_hover03">
-                    <a href="#popExit">Выйти</a>
-                  </button>
-                </div>
+              )}
+
               </nav>
           </div>
         </div>
