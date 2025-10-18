@@ -1,7 +1,7 @@
 import Card from "../Card/Card"
 import { cardList } from "../../data";
 
-function Column({ title, loading }) {
+function Column({ title }) {
   return (
     <div className="main__column column">
       <div className="column__title">

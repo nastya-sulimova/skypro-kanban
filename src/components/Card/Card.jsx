@@ -1,5 +1,4 @@
 function Card({item}) {
-
     const topicStyles = {
         "Web Design": "_orange",
         "Research": "_green", 

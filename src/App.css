@@ -777,6 +777,7 @@ body {
   margin: -6px 0 0 5px;
   padding: 0;
 }
+
 ._hover02 {
   border: none;
   background-color: transparent;
@@ -816,6 +817,7 @@ body {
 .main {
   width: 100%;
   background-color: #EAEEF6;
+  height: 100vh
 }
 .main__block {
   width: 100%;

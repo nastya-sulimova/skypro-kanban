@@ -8,7 +8,6 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 
 function App() {
-
   const [loading, setLoading] = useState(true)
 
   useEffect(()=>{
