@@ -1,4 +1,5 @@
 import Card from "../Card/Card"
+import { cardList } from "../../data";
 
 function Column({ title }) {
   return (
@@ -7,9 +8,11 @@ function Column({ title }) {
         <p>{title}</p>
       </div>
       <div className="cards">
-        <Card />
-        <Card />
-        <Card />
+      {   cardList
+                .filter((item) => item.status === title)
+                .map((item, id) =>
+                  <Card item={item} key={id}/>
+                )}
       </div>
     </div>
   );
