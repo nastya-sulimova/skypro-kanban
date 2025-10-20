@@ -814,20 +814,9 @@ body {
   color: #000;
 }
 
-.main {
-  width: 100%;
-  background-color: #EAEEF6;
-  height: 100vh
-}
-.main__block {
-  width: 100%;
-  margin: 0 auto;
-  padding: 25px 0 49px;
-}
-.main__content {
-  width: 100%;
-  display: flex;
-}
+/* УДАЛЕНО - перенесено в Main.styled.js */
+/* .main, .main__block, .main__content { ... } */
+
 .main__column {
   width: 20%;
   margin: 0 auto;
