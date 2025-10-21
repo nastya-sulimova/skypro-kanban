@@ -15,7 +15,7 @@ import {
   PopUserMail,
   PopUserTheme,
   ThemeText, ThemeCheckbox, PopUserBtn, PopUserBtnLink
-} from "./Header.style";
+} from "./Header.styled";
 import { Container } from "../Main/Main.styled";
 
 function Header() {

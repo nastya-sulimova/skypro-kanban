@@ -1,6 +1,6 @@
 import Card from "../Card/Card"
 import { cardList } from "../../data";
-import { MainColumn, ColumnTitle, Cards } from "./Column.style";
+import { MainColumn, ColumnTitle, Cards } from "./Column.styled";
 
 function Column({ title }) {
   return (

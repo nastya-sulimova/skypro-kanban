@@ -1,4 +1,4 @@
-import { CardLoading } from "./CardLoader.style"
+import { CardLoading } from "./CardLoader.styled"
 
 const CardLoader = () => {
   return (

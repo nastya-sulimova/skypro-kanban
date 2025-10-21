@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { CommonLink } from "../Card/Card.styled";
 
 export const HeaderContainer = styled.header`
   width: 100%;
@@ -53,7 +54,7 @@ export const HeaderBtnMain = styled.button`
   }
 `;
 
-export const HeaderBtnLink = styled.a`
+export const HeaderBtnLink = styled(CommonLink)`
   color: #ffffff;
 `;
 
@@ -188,13 +189,13 @@ export const PopUserBtn = styled.button`
   border: 1px solid #565eef;
   &:hover {
     background-color: #33399b;
-  color: #FFFFFF;
+    color: #ffffff;
   }
 `;
 
-export const PopUserBtnLink = styled.a`
-  color: #565EEF;
-  &:hover{
-    color: #FFFFFF;
+export const PopUserBtnLink = styled(CommonLink)`
+  color: #565eef;
+  &:hover {
+    color: #ffffff;
   }
 `;
