@@ -1,6 +1,8 @@
+import { CardLoading } from "./CardLoader.style"
+
 const CardLoader = () => {
   return (
-    <div className="cardLoader">Данные загружаются</div>
+    <CardLoading>Данные загружаются</CardLoading>
   )
 }
 
