@@ -1,20 +1,21 @@
 import Card from "../Card/Card"
 import { cardList } from "../../data";
+import { MainColumn, ColumnTitle, Cards } from "./Column.style";
 
 function Column({ title }) {
   return (
-    <div className="main__column column">
-      <div className="column__title">
+    <MainColumn>
+      <ColumnTitle>
         <p>{title}</p>
-      </div>
-      <div className="cards">
+      </ColumnTitle>
+      <Cards>
       {   cardList
                 .filter((item) => item.status === title)
                 .map((item, id) =>
                   <Card item={item} key={id}/>
                 )}
-      </div>
-    </div>
+      </Cards>
+    </MainColumn>
   );
 }
 

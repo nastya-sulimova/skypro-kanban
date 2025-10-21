@@ -1,8 +1,27 @@
 import Calendar from "./Calendar/Calendar"
 
+import styled from 'styled-components';
+
+// Временный styled-component
+const PopNewCardStyled = styled.div`
+  display: none;
+  width: 100%;
+  min-width: 375px;
+  height: 100%;
+  min-height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 6;
+
+  &:target {
+    display: block;
+  }
+`;
+
 function PopNewCard() {
     return (
-        <div className="pop-new-card" id="popNewCard">
+        <PopNewCardStyled id="popNewCard">
           <div className="pop-new-card__container">
             <div className="pop-new-card__block">
               <div className="pop-new-card__content">
@@ -63,7 +82,7 @@ function PopNewCard() {
               </div>
             </div>
           </div>
-        </div>
+        </PopNewCardStyled>
     )
 }
 
