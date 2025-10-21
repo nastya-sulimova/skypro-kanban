@@ -2,13 +2,14 @@ import {
   CardsItem,
   CardBlock,
   CardGroup,
-  CardTheme,
+  Topic,
   TopicColors,
   CommonLink,
   CardBtn,
   CardContent,
   CardTitle,
   CardDate,
+  
 } from "./Card.styled";
 
 function Card({ item }) {
@@ -16,9 +17,9 @@ function Card({ item }) {
     <CardsItem>
       <CardBlock>
         <CardGroup>
-          <CardTheme topic={item.topic}>
+          <Topic topic={item.topic}>
             <TopicColors topic={item.topic}>{item.topic}</TopicColors>
-          </CardTheme>
+          </Topic>
           <CommonLink href="#popBrowse" target="_self">
             <CardBtn>
               <div></div>
