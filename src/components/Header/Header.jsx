@@ -1,61 +1,73 @@
-import { useState } from "react"
+import { useState } from "react";
+import {
+  HeaderContainer,
+  HeaderBlock,
+  HeaderLogo,
+  HeaderLogoImg,
+  HeaderLogoDark,
+  HeaderNav,
+  HeaderBtnMain,
+  HeaderBtnLink,
+  HeaderUserBtn,
+  HeaderPopUserBlock,
+  HeaderPopUserBlockClose,
+  PopUserName,
+  PopUserMail,
+  PopUserTheme,
+  ThemeText, ThemeCheckbox, PopUserBtn, PopUserBtnLink
+} from "./Header.styled";
+import { Container } from "../Main/Main.styled";
 
 function Header() {
-
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const toggleUserMenu = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
   };
-    return (
-      <header className="header">
-        <div className="container">
-          <div className="header__block">
-          <div className="header__logo _show _light">
-                <a href="" target="_self">
-                  <img src="images/logo.png" alt="logo" />
-                </a>
-              </div>
-              <div className="header__logo _dark">
-                <a href="" target="_self">
-                  <img src="images/logo_dark.png" alt="logo" />
-                </a>
-              </div>
-              <nav className="header__nav">
-                <button
-                  className="header__btn-main-new _hover01"
-                  id="btnMainNew"
-                >
-                  <a href="#popNewCard">Создать новую задачу</a>
-                </button>
+  return (
+    <HeaderContainer>
+      <Container>
+        <HeaderBlock>
+          <HeaderLogo>
+            <a href="" target="_self">
+              <HeaderLogoImg src="images/logo.png" alt="logo" />
+            </a>
+          </HeaderLogo>
+          <HeaderLogoDark>
+            <a href="" target="_self">
+              <HeaderLogoImg src="images/logo_dark.png" alt="logo" />
+            </a>
+          </HeaderLogoDark>
+          <HeaderNav>
+            <HeaderBtnMain id="btnMainNew">
+              <HeaderBtnLink href="#popNewCard">
+                Создать новую задачу
+              </HeaderBtnLink>
+            </HeaderBtnMain>
 
-                <button className="header__user _hover02" onClick={toggleUserMenu}>Ivan Ivanov</button>
-                
-                {isUserMenuOpen && (
-                  <div className="header__pop-user-set pop-user-set">
-                    <button 
-                      className="pop-user-set__close" 
-                      onClick={toggleUserMenu}
-                    >
-                      ×
-                    </button>
-                    <p className="pop-user-set__name">Ivan Ivanov</p>
-                    <p className="pop-user-set__mail">ivan.ivanov@gmail.com</p>
-                    <div className="pop-user-set__theme">
-                      <p>Темная тема</p>
-                      <input type="checkbox" className="checkbox" name="checkbox" />
-                    </div>
-                    <button type="button" className="_hover03">
-                      <a href="#popExit">Выйти</a>
-                    </button>
-                  </div>
-              )}
+            <HeaderUserBtn onClick={toggleUserMenu}>Ivan Ivanov</HeaderUserBtn>
 
-              </nav>
-          </div>
-        </div>
-      </header>
-    )
-  }
-  
-  export default Header
+            {isUserMenuOpen && (
+              <HeaderPopUserBlock>
+                <HeaderPopUserBlockClose onClick={toggleUserMenu}>
+                  ×
+                </HeaderPopUserBlockClose>
+                <PopUserName>Ivan Ivanov</PopUserName>
+                <PopUserMail>ivan.ivanov@gmail.com</PopUserMail>
+                <PopUserTheme>
+                  <ThemeText>Темная тема</ThemeText>
+                  <ThemeCheckbox type="checkbox" name="checkbox" />
+                </PopUserTheme>
+                <PopUserBtn type="button">
+                  <PopUserBtnLink href="#popExit">Выйти</PopUserBtnLink>
+                </PopUserBtn>
+              </HeaderPopUserBlock>
+            )}
+          </HeaderNav>
+        </HeaderBlock>
+      </Container>
+    </HeaderContainer>
+  );
+}
+
+export default Header;
