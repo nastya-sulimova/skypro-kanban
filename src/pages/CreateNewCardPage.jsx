@@ -1,6 +1,11 @@
+import PopNewCard from "../components/popups/PopNewCard/PopNewCard"
+import { Overlay } from "./LogOutPage"
+
 const CreateNewCardPage = () => {
   return (
-    <div>CreateNewCardPage</div>
+    <Overlay>
+      <PopNewCard/>
+    </Overlay>
   )
 }
 

@@ -1,7 +1,7 @@
 import PopUser from "../components/popups/PopUser/PopUser"
 import styled from "styled-components";
 
-const Overlay = styled.div`
+ export const Overlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
