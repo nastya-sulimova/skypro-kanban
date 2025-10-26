@@ -193,7 +193,14 @@ export const PopUserBtn = styled.button`
   }
 `;
 
-export const PopUserBtnLink = styled(CommonLink)`
+export const PopUserBtnLink = styled.p`
+margin: 0;
+text-decoration: none;
+  cursor: pointer;
+  &:visited {
+    text-decoration: none;
+    cursor: pointer;
+  }
   color: #565eef;
   &:hover {
     color: #ffffff;
