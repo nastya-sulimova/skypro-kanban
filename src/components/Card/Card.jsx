@@ -11,6 +11,7 @@ import {
   CardDate,
   
 } from "./Card.styled";
+import { Link } from "react-router-dom";
 
 function Card({ item }) {
   return (
@@ -20,13 +21,13 @@ function Card({ item }) {
           <Topic topic={item.topic}>
             <TopicColors topic={item.topic}>{item.topic}</TopicColors>
           </Topic>
-          <CommonLink href="#popBrowse" target="_self">
+          <Link to={`/card/${item.id}`} target="_self">
             <CardBtn>
               <div></div>
               <div></div>
               <div></div>
             </CardBtn>
-          </CommonLink>
+          </Link>
         </CardGroup>
         <CardContent>
           <CommonLink href="" target="_blank">

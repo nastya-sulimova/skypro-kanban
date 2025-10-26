@@ -1,6 +1,11 @@
+import PopBrowse from "../components/popups/PopBrowse/PopBrowse"
+import { Overlay } from "./LogOutPage"
+
 const ViewAndEditCardPage = () => {
   return (
-    <div>ViewAndEditCardPage</div>
+    <Overlay>
+      <PopBrowse/>
+    </Overlay>
   )
 }
 

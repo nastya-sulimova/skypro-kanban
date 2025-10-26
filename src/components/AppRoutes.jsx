@@ -96,7 +96,7 @@ const AppRoutes = () => {
 
     // <PopNewCard    созд новой/>
 
-    // <PopBrowse   создание и ред/>
+    // <PopBrowse   просмотр и ред/>
 
     // <Header />
     // <Main loading={loading} />        mainpage*/}

@@ -1,21 +1,38 @@
 import Calendar from "./Calendar/Calendar"
+import { Link, useParams, useNavigate } from "react-router-dom"
+import { useMemo } from "react"
+import { cardList } from "../../../data"
+import { SPopBrowse, PopBrowseContent, HiddenCategories } from "./PopBrowse.styled"
 
 function PopBrowse() {
+  const {id} = useParams();
+
+  const navigate = useNavigate();
+
+  const cardItem = useMemo(
+    ()=> cardList.find((card)=>card.id===id)||{topic:'', title:'', date:'', status:''}, //не понимаю зачем ИЛИ и что это вообще
+    [id]
+  );
+
+  const handleClose = () => {
+    navigate('/'); // Возвращаемся на главную при закрытии
+  }
+
     return (
-        <div className="pop-browse" id="popBrowse">
+        <SPopBrowse id="popBrowse">
           <div className="pop-browse__container">
             <div className="pop-browse__block">
-              <div className="pop-browse__content">
+              <PopBrowseContent>
                 <div className="pop-browse__top-block">
-                  <h3 className="pop-browse__ttl">Название задачи</h3>
+                  <h3 className="pop-browse__ttl">{cardItem.title}</h3>
                   <div className="categories__theme theme-top _orange _active-category">
-                    <p className="_orange">Web Design</p>
+                    <p className="_orange">{cardItem.topic}</p>
                   </div>
                 </div>
                 <div className="pop-browse__status status">
                   <p className="status__p subttl">Статус</p>
                   <div className="status__themes">
-                    <div className="status__theme _hide">
+                    {/* <div className="status__theme _hide">
                       <p>Без статуса</p>
                     </div>
                     <div className="status__theme _gray">
@@ -29,7 +46,22 @@ function PopBrowse() {
                     </div>
                     <div className="status__theme _hide">
                       <p>Готово</p>
-                    </div>
+                    </div> */}
+                    <div className={`status__theme ${cardItem.status === 'Без статуса' ? '' : '_hide'}`}>
+                  <p>{cardItem.status}</p>
+                </div>
+                <div className={`status__theme ${cardItem.status === 'Нужно сделать' ? '_gray' : '_hide'}`}>
+                  <p className="_gray">{cardItem.status}</p>
+                </div>
+                <div className={`status__theme ${cardItem.status === 'В работе' ? '' : '_hide'}`}>
+                  <p>{cardItem.status}</p>
+                </div>
+                <div className={`status__theme ${cardItem.status === 'Тестирование' ? '' : '_hide'}`}>
+                  <p>{cardItem.status}</p>
+                </div>
+                <div className={`status__theme ${cardItem.status === 'Готово' ? '' : '_hide'}`}>
+                  <p>{cardItem.status}</p>
+                </div>
                   </div>
                 </div>
                 <div className="pop-browse__wrap">
@@ -53,12 +85,12 @@ function PopBrowse() {
                   </form>
                   <Calendar/>
                 </div>
-                <div className="theme-down__categories theme-down">
+                <HiddenCategories className="theme-down__categories">
                   <p className="categories__p subttl">Категория</p>
                   <div className="categories__theme _orange _active-category">
-                    <p className="_orange">Web Design</p>
+                    <p className="_orange">{cardItem.topic}</p>
                   </div>
-                </div>
+                </HiddenCategories>
                 <div className="pop-browse__btn-browse ">
                   <div className="btn-group">
                     <button className="btn-browse__edit _btn-bor _hover03">
@@ -68,8 +100,8 @@ function PopBrowse() {
                       <a href="#">Удалить задачу</a>
                     </button>
                   </div>
-                  <button className="btn-browse__close _btn-bg _hover01">
-                    <a href="#">Закрыть</a>
+                  <button onClick={handleClose} className="btn-browse__close _btn-bg _hover01">
+                    Закрыть
                   </button>
                 </div>
                 <div className="pop-browse__btn-edit _hide">
@@ -87,14 +119,14 @@ function PopBrowse() {
                       <a href="#">Удалить задачу</a>
                     </button>
                   </div>
-                  <button className="btn-edit__close _btn-bg _hover01">
-                    <a href="#">Закрыть</a>
+                  <button onClick={handleClose} className="btn-edit__close _btn-bg _hover01">
+                    Закрыть
                   </button>
                 </div>
-              </div>
+              </PopBrowseContent>
             </div>
           </div>
-        </div>
+        </SPopBrowse>
     )
   }
   
