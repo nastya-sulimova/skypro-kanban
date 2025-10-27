@@ -6,13 +6,13 @@ import { SPopBrowse, PopBrowseContent, HiddenCategories } from "./PopBrowse.styl
 
 import { topicStyles, Topic, TopicColors } from "../../Card/Card.styled"
 
-function PopBrowse() {
+function PopBrowseEdit() {
   const {id} = useParams();
 
   const navigate = useNavigate();
 
   const cardItem = useMemo(
-    ()=> cardList.find((card)=>card.id===id)||{topic:'', title:'', date:'', status:''}, //не понимаю зачем ИЛИ и что это вообще       
+    ()=> cardList.find((card)=>card.id===id)||{topic:'', title:'', date:'', status:''},
     [id]
   );
 
@@ -22,14 +22,11 @@ function PopBrowse() {
 
     return (
         <SPopBrowse id="popBrowse">
-          <div className="pop-browse__container">
+          <div className="pop-browse__container" style={{background: "transparent"}}>
             <div className="pop-browse__block">
               <PopBrowseContent>
                 <div className="pop-browse__top-block">
                   <h3 className="pop-browse__ttl">{cardItem.title}</h3>
-                  {/* <div className="categories__theme theme-top _orange _active-category">
-                    <p className="_orange">{cardItem.topic}</p>
-                  </div> */}
 
                   <Topic topic={cardItem.topic}>
                     <TopicColors style={{margin: '5px'}} topic={cardItem.topic}>{cardItem.topic}</TopicColors>
@@ -39,11 +36,23 @@ function PopBrowse() {
                 <div className="pop-browse__status status">
                   <p className="status__p subttl">Статус</p>
                   <div className="status__themes">
-                
-                    <div className={`status__theme ${cardItem.status ? '_gray' : '_hide'}`}>
-                  <p>{cardItem.status}</p>
+
+                <div className={`status__theme ${cardItem.status === 'Без статуса' ? '_gray' : ''}`}>
+                  <p style={{color: cardItem.status === 'Без статуса' ? 'white' : '#94A6BE'}}>Без статуса</p>
                 </div>
-         
+                <div className={`status__theme ${cardItem.status === 'Нужно сделать' ? '_gray' : ''}`}>
+                  <p style={{color: cardItem.status === 'Нужно сделать' ? 'white' : '#94A6BE'}}>Нужно сделать</p>
+                </div>
+                <div className={`status__theme ${cardItem.status === 'В работе' ? '_gray' : ''}`}>
+                  <p style={{color: cardItem.status === 'В работе' ? 'white' : '#94A6BE'}}>В работе</p>
+                </div>
+                <div className={`status__theme ${cardItem.status === 'Тестирование' ? '_gray' : ''}`}>
+                  <p style={{color: cardItem.status === 'Тестирование' ? 'white' : '#94A6BE'}}>Тестирование</p>
+                </div>
+                <div className={`status__theme ${cardItem.status === 'Готово' ? '_gray' : ''}`}>
+                  <p style={{color: cardItem.status === 'Готово' ? 'white' : '#94A6BE'}}>Готово</p>
+                </div>
+
                   </div>
                 </div>
                 <div className="pop-browse__wrap">
@@ -73,24 +82,8 @@ function PopBrowse() {
                     <p className="_orange">{cardItem.topic}</p>
                   </div>
                 </HiddenCategories>
-                <div className="pop-browse__btn-browse ">
-                  <div className="btn-group">
-
-                  <Link to={`/card/${cardItem.id}/edit`} target="_self">
-                    <button className="btn-browse__edit _btn-bor _hover03">
-                        Редактировать задачу
-                      </button>
-                  </Link>
-
-                    <button className="btn-browse__delete _btn-bor _hover03">
-                      <a href="#">Удалить задачу</a>
-                    </button>
-                  </div>
-                  <button onClick={handleClose} className="btn-browse__close _btn-bg _hover01">
-                    Закрыть
-                  </button>
-                </div>
-                {/* <div className="pop-browse__btn-edit _hide">
+             
+                <div className="pop-browse__btn-edit">
                   <div className="btn-group">
                     <button className="btn-edit__edit _btn-bg _hover01">
                       <a href="#">Сохранить</a>
@@ -108,7 +101,7 @@ function PopBrowse() {
                   <button onClick={handleClose} className="btn-edit__close _btn-bg _hover01">
                     Закрыть
                   </button>
-                </div> */}
+                </div>
               </PopBrowseContent>
             </div>
           </div>
@@ -116,4 +109,4 @@ function PopBrowse() {
     )
   }
   
-  export default PopBrowse
+  export default PopBrowseEdit

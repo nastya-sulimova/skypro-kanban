@@ -27,7 +27,7 @@ export const CardGroup = styled.div`
   justify-content: space-between;
 `;
 
-const topicStyles = {
+export const topicStyles = {
   'Web Design': {
     background: '#FFE4C2',
     color: '#FF6D00'

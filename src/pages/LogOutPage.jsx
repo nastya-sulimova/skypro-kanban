@@ -14,6 +14,10 @@ import styled from "styled-components";
   z-index: 1000;
 `;
 
+export const OverlayEditPage = styled.div`
+  background-color: transparent;
+`
+
 const LogOutPage = () => {
   return (
     <Overlay>

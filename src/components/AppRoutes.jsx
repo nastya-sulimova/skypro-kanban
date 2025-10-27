@@ -8,6 +8,7 @@ import SignInPage from "../pages/SignInPage";
 import SignUpPage from "../pages/SignUpPage";
 import ViewAndEditCardPage from "../pages/ViewAndEditCardPage";
 import styled, { createGlobalStyle } from "styled-components";
+import EditCardPage from "../pages/EditCardPage";
 
 const GlobalStyle = createGlobalStyle`
   main.css
@@ -83,7 +84,9 @@ const AppRoutes = () => {
           <Route path="/" element={<MainPage loading={loading} />}>
             <Route path="/exit" element={<LogOutPage />} />
             <Route path="/card/add" element={<CreateNewCardPage />} />
-            <Route path="/card/:id" element={<ViewAndEditCardPage />} />
+            <Route path="/card/:id" element={<ViewAndEditCardPage />} >
+                <Route path="/card/:id/edit" element={<EditCardPage />} />
+            </Route>
           </Route>
           <Route path="/login" element={<SignInPage />} />
           <Route path="/register" element={<SignUpPage />} />
