@@ -47,10 +47,10 @@ function PopBrowse() {
                     <div className="status__theme _hide">
                       <p>Готово</p>
                     </div> */}
-                    <div className={`status__theme ${cardItem.status === 'Без статуса' ? '' : '_hide'}`}>
+                    <div className={`status__theme ${cardItem.status ? '_gray' : '_hide'}`}>
                   <p>{cardItem.status}</p>
                 </div>
-                <div className={`status__theme ${cardItem.status === 'Нужно сделать' ? '_gray' : '_hide'}`}>
+                {/* <div className={`status__theme ${cardItem.status === 'Нужно сделать' ? '_gray' : '_hide'}`}>
                   <p className="_gray">{cardItem.status}</p>
                 </div>
                 <div className={`status__theme ${cardItem.status === 'В работе' ? '' : '_hide'}`}>
@@ -61,7 +61,7 @@ function PopBrowse() {
                 </div>
                 <div className={`status__theme ${cardItem.status === 'Готово' ? '' : '_hide'}`}>
                   <p>{cardItem.status}</p>
-                </div>
+                </div> */}
                   </div>
                 </div>
                 <div className="pop-browse__wrap">
