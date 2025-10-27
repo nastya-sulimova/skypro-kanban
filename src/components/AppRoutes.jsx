@@ -9,6 +9,7 @@ import SignUpPage from "../pages/SignUpPage";
 import ViewAndEditCardPage from "../pages/ViewAndEditCardPage";
 import styled, { createGlobalStyle } from "styled-components";
 import EditCardPage from "../pages/EditCardPage";
+import PrivateRoute from "./PrivateRoute";
 
 const GlobalStyle = createGlobalStyle`
   main.css
@@ -68,6 +69,7 @@ const Wrapper = styled.div`
 `;
 
 const AppRoutes = () => {
+  const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -81,28 +83,24 @@ const AppRoutes = () => {
       <GlobalStyle />
       <Wrapper>
         <Routes>
-          <Route path="/" element={<MainPage loading={loading} />}>
-            <Route path="/exit" element={<LogOutPage />} />
-            <Route path="/card/add" element={<CreateNewCardPage />} />
-            <Route path="/card/:id" element={<ViewAndEditCardPage />} >
+          <Route element={<PrivateRoute isAuth={isAuth} />}>
+            <Route
+              path="/"
+              element={<MainPage setIsAuth={setIsAuth} loading={loading} />}
+            >
+              <Route path="/exit" element={<LogOutPage />} />
+              <Route path="/card/add" element={<CreateNewCardPage />} />
+              <Route path="/card/:id" element={<ViewAndEditCardPage />}>
                 <Route path="/card/:id/edit" element={<EditCardPage />} />
+              </Route>
             </Route>
           </Route>
-          <Route path="/login" element={<SignInPage />} />
+          <Route path="/login" element={<SignInPage setIsAuth={setIsAuth} />} />
           <Route path="/register" element={<SignUpPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Wrapper>
     </>
-
-    // {/* <PopUser    выход из аккаунта/>
-
-    // <PopNewCard    созд новой/>
-
-    // <PopBrowse   просмотр и ред/>
-
-    // <Header />
-    // <Main loading={loading} />        mainpage*/}
   );
 };
 

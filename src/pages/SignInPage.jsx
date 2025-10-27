@@ -1,6 +1,8 @@
-const SignInPage = () => {
+import SignIn from "../components/SignIn"
+
+const SignInPage = ({setIsAuth}) => {
   return (
-    <div>SignInPage</div>
+    <SignIn setIsAuth={setIsAuth}/>
   )
 }
 
