@@ -43,8 +43,6 @@ export const topicStyles = {
 };
 
 export const Topic = styled.div`
-  width: auto;
-  height: 20px;
   padding: 5px 14px;
   border-radius: 18px;
   & p {
