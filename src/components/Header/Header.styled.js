@@ -49,12 +49,23 @@ export const HeaderBtnMain = styled.button`
   line-height: 1;
   font-weight: 500;
   margin-right: 20px;
+
+  margin: 0;
   &:hover {
     background-color: #33399b;
   }
 `;
 
-export const HeaderBtnLink = styled(CommonLink)`
+export const HeaderBtnLink = styled.p`
+margin: 0;
+
+text-decoration: none;
+  cursor: pointer;
+  &:visited {
+    text-decoration: none;
+    cursor: pointer;
+  }
+
   color: #ffffff;
 `;
 
@@ -193,7 +204,14 @@ export const PopUserBtn = styled.button`
   }
 `;
 
-export const PopUserBtnLink = styled(CommonLink)`
+export const PopUserBtnLink = styled.p`
+margin: 0;
+text-decoration: none;
+  cursor: pointer;
+  &:visited {
+    text-decoration: none;
+    cursor: pointer;
+  }
   color: #565eef;
   &:hover {
     color: #ffffff;

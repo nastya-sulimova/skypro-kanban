@@ -17,6 +17,7 @@ import {
   ThemeText, ThemeCheckbox, PopUserBtn, PopUserBtnLink
 } from "./Header.styled";
 import { Container } from "../Main/Main.styled";
+import { Link } from "react-router-dom";
 
 function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -39,11 +40,14 @@ function Header() {
             </a>
           </HeaderLogoDark>
           <HeaderNav>
-            <HeaderBtnMain id="btnMainNew">
-              <HeaderBtnLink href="#popNewCard">
-                Создать новую задачу
-              </HeaderBtnLink>
-            </HeaderBtnMain>
+            
+            <Link to="/card/add">
+              <HeaderBtnMain id="btnMainNew">
+                <HeaderBtnLink >
+                  Создать новую задачу
+                </HeaderBtnLink>
+              </HeaderBtnMain>
+            </Link>
 
             <HeaderUserBtn onClick={toggleUserMenu}>Ivan Ivanov</HeaderUserBtn>
 
@@ -58,9 +62,13 @@ function Header() {
                   <ThemeText>Темная тема</ThemeText>
                   <ThemeCheckbox type="checkbox" name="checkbox" />
                 </PopUserTheme>
-                <PopUserBtn type="button">
-                  <PopUserBtnLink href="#popExit">Выйти</PopUserBtnLink>
-                </PopUserBtn>
+
+                <Link to="/exit">
+                  <PopUserBtn type="button">
+                    <PopUserBtnLink >Выйти</PopUserBtnLink>
+                  </PopUserBtn>
+                </Link>
+                
               </HeaderPopUserBlock>
             )}
           </HeaderNav>
