@@ -7,7 +7,8 @@ import {
   MainContent,
 } from "./Main.styled";
 
-function Main({ loading }) {
+function Main({ loading, tasks }) {
+
   return (
     <MainContainer>
       <Container>
@@ -18,7 +19,7 @@ function Main({ loading }) {
             ) : (
               ["Без статуса", "Нужно сделать", "В работе", "Тестирование", "Готово",
               ].map((title, id) => (
-                <Column loading={loading} title={title} key={id} />
+                <Column tasks={tasks} loading={loading} title={title} key={id} />
               ))
             )}
           </MainContent>

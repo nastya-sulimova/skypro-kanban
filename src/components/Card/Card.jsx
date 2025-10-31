@@ -18,8 +18,8 @@ function Card({ item }) {
     <CardsItem>
       <CardBlock>
         <CardGroup>
-          <Topic topic={item.topic}>
-            <TopicColors topic={item.topic}>{item.topic}</TopicColors>
+          <Topic $topic={item.topic}>
+            <TopicColors $topic={item.topic}>{item.topic}</TopicColors>
           </Topic>
           <Link to={`/card/${item.id}`} target="_self">
             <CardBtn>

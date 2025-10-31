@@ -4,7 +4,7 @@ import { useMemo } from "react"
 import { cardList } from "../../../data"
 import { SPopBrowse, PopBrowseContent, HiddenCategories } from "./PopBrowse.styled"
 
-import { topicStyles, Topic, TopicColors } from "../../Card/Card.styled"
+import { Topic, TopicColors } from "../../Card/Card.styled"
 
 function PopBrowseEdit() {
   const {id} = useParams();
@@ -17,7 +17,7 @@ function PopBrowseEdit() {
   );
 
   const handleClose = () => {
-    navigate('/'); // Возвращаемся на главную при закрытии
+    navigate('/');
   }
 
     return (
@@ -27,32 +27,28 @@ function PopBrowseEdit() {
               <PopBrowseContent>
                 <div className="pop-browse__top-block">
                   <h3 className="pop-browse__ttl">{cardItem.title}</h3>
-
-                  <Topic topic={cardItem.topic}>
-                    <TopicColors style={{margin: '5px'}} topic={cardItem.topic}>{cardItem.topic}</TopicColors>
+                  <Topic $topic={cardItem.topic}>
+                    <TopicColors style={{margin: '5px'}} $topic={cardItem.topic}>{cardItem.topic}</TopicColors>
                   </Topic>
-
                 </div>
                 <div className="pop-browse__status status">
                   <p className="status__p subttl">Статус</p>
                   <div className="status__themes">
-
-                <div className={`status__theme ${cardItem.status === 'Без статуса' ? '_gray' : ''}`}>
-                  <p style={{color: cardItem.status === 'Без статуса' ? 'white' : '#94A6BE'}}>Без статуса</p>
-                </div>
-                <div className={`status__theme ${cardItem.status === 'Нужно сделать' ? '_gray' : ''}`}>
-                  <p style={{color: cardItem.status === 'Нужно сделать' ? 'white' : '#94A6BE'}}>Нужно сделать</p>
-                </div>
-                <div className={`status__theme ${cardItem.status === 'В работе' ? '_gray' : ''}`}>
-                  <p style={{color: cardItem.status === 'В работе' ? 'white' : '#94A6BE'}}>В работе</p>
-                </div>
-                <div className={`status__theme ${cardItem.status === 'Тестирование' ? '_gray' : ''}`}>
-                  <p style={{color: cardItem.status === 'Тестирование' ? 'white' : '#94A6BE'}}>Тестирование</p>
-                </div>
-                <div className={`status__theme ${cardItem.status === 'Готово' ? '_gray' : ''}`}>
-                  <p style={{color: cardItem.status === 'Готово' ? 'white' : '#94A6BE'}}>Готово</p>
-                </div>
-
+                    <div className={`status__theme ${cardItem.status === 'Без статуса' ? '_gray' : ''}`}>
+                      <p style={{color: cardItem.status === 'Без статуса' ? 'white' : '#94A6BE'}}>Без статуса</p>
+                    </div>
+                    <div className={`status__theme ${cardItem.status === 'Нужно сделать' ? '_gray' : ''}`}>
+                      <p style={{color: cardItem.status === 'Нужно сделать' ? 'white' : '#94A6BE'}}>Нужно сделать</p>
+                    </div>
+                    <div className={`status__theme ${cardItem.status === 'В работе' ? '_gray' : ''}`}>
+                      <p style={{color: cardItem.status === 'В работе' ? 'white' : '#94A6BE'}}>В работе</p>
+                    </div>
+                    <div className={`status__theme ${cardItem.status === 'Тестирование' ? '_gray' : ''}`}>
+                      <p style={{color: cardItem.status === 'Тестирование' ? 'white' : '#94A6BE'}}>Тестирование</p>
+                    </div>
+                    <div className={`status__theme ${cardItem.status === 'Готово' ? '_gray' : ''}`}>
+                      <p style={{color: cardItem.status === 'Готово' ? 'white' : '#94A6BE'}}>Готово</p>
+                    </div>
                   </div>
                 </div>
                 <div className="pop-browse__wrap">

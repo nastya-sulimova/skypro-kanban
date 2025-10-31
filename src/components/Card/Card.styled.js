@@ -51,14 +51,14 @@ export const Topic = styled.div`
     line-height: 10px;
   }
   
-  background-color: ${props => topicStyles[props.topic]?.background};
-  color: ${props => topicStyles[props.topic]?.color};
+  background-color: ${props => topicStyles[props.$topic]?.background};
+  color: ${props => topicStyles[props.$topic]?.color};
 `;
 
 
 export const TopicColors = styled.p`
-  background-color: ${props => topicStyles[props.topic]?.background};
-  color: ${props => topicStyles[props.topic]?.color};
+  background-color: ${props => topicStyles[props.$topic]?.background};
+  color: ${props => topicStyles[props.$topic]?.color};
 `;
 
 export const CommonLink = styled.a`

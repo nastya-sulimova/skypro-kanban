@@ -1,15 +1,49 @@
 import Header from "../components/Header/Header";
 import Main from "../components/Main/Main";
 import { Outlet } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { fetchTasks } from "../services/api";
 
-const MainPage = ({loading}) => {
+const MainPage = ({setIsAuth}) => {
+  const [loading, setLoading] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [error, setError] = useState("");
+
+  const getTasks = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError("");
+      
+      // Временно используем тестовый токен из документации
+      const token = "bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck";
+
+      const data = await fetchTasks({ token });
+      
+      if (data) {
+        setTasks(data);
+      }
+    } catch (err) {
+      console.error("Ошибка при загрузке:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+useEffect(() => {
+  getTasks();
+}, [getTasks]);
+
   return (
     <>
       <Header />
-      <Main loading={loading} />
+      <Main tasks={tasks} error={error} loading={loading} />
       <Outlet />
     </>
   );
 };
 
 export default MainPage;
+
+
+
