@@ -1,23 +1,39 @@
 import Calendar from "./Calendar/Calendar"
-import { Link, useParams, useNavigate } from "react-router-dom"
-import { useMemo } from "react"
-import { cardList } from "../../../data"
+import { Link, useNavigate } from "react-router-dom"
 import { SPopBrowse, PopBrowseContent, HiddenCategories } from "./PopBrowse.styled"
-
 import { Topic, TopicColors } from "../../Card/Card.styled"
 
-function PopBrowse() {
-  const {id} = useParams();
+function PopBrowse({task, loading, error}) {
 
   const navigate = useNavigate();
 
-  const cardItem = useMemo(
-    ()=> cardList.find((card)=>card.id===id)||{topic:'', title:'', date:'', status:''},    
-    [id]
-  );
-
   const handleClose = () => {
     navigate('/');
+  }
+
+   if (loading) {
+    return (
+      <SPopBrowse id="popBrowse">
+        <div className="pop-browse__container">
+          <div className="pop-browse__block">
+            <div>Загрузка...</div>
+          </div>
+        </div>
+      </SPopBrowse>
+    );
+  }
+
+  if (error) {
+    return (
+      <SPopBrowse id="popBrowse">
+        <div className="pop-browse__container">
+          <div className="pop-browse__block">
+            <div>Ошибка: {error}</div>
+            <button onClick={handleClose}>Закрыть</button>
+          </div>
+        </div>
+      </SPopBrowse>
+    );
   }
 
     return (
@@ -26,16 +42,16 @@ function PopBrowse() {
             <div className="pop-browse__block">
               <PopBrowseContent>
                 <div className="pop-browse__top-block">
-                  <h3 className="pop-browse__ttl">{cardItem.title}</h3>
-                  <Topic $topic={cardItem.topic}>
-                    <TopicColors style={{margin: '5px'}} $topic={cardItem.topic}>{cardItem.topic}</TopicColors>
+                  <h3 className="pop-browse__ttl">{task.title}</h3>
+                  <Topic $topic={task.topic}>
+                    <TopicColors style={{margin: '5px'}} $topic={task.topic}>{task.topic}</TopicColors>
                   </Topic>
                 </div>
                 <div className="pop-browse__status status">
                   <p className="status__p subttl">Статус</p>
                   <div className="status__themes">
-                    <div className={`status__theme ${cardItem.status ? '_gray' : '_hide'}`}>
-                      <p>{cardItem.status}</p>
+                    <div className={`status__theme ${task.status ? '_gray' : '_hide'}`}>
+                      <p>{task.status}</p>
                     </div> 
                   </div>
                 </div>
@@ -63,13 +79,13 @@ function PopBrowse() {
                 <HiddenCategories className="theme-down__categories">
                   <p className="categories__p subttl">Категория</p>
                   <div className="categories__theme _orange _active-category">
-                    <p className="_orange">{cardItem.topic}</p>
+                    <p className="_orange">{task.topic}</p>
                   </div>
                 </HiddenCategories>
                 <div className="pop-browse__btn-browse ">
                   <div className="btn-group">
 
-                  <Link to={`/card/${cardItem.id}/edit`} target="_self">
+                  <Link to={`/card/${task._id}/edit`} target="_self">
                     <button className="btn-browse__edit _btn-bor _hover03">
                         Редактировать задачу
                       </button>

@@ -14,3 +14,16 @@ export async function fetchTasks({ token }) {
     throw new Error(error.message);
   }
 }
+
+export async function viewTask({ token, _id }) {
+  try {
+    const response = await axios.get(`${API_URL}/${_id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
