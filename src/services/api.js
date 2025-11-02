@@ -27,3 +27,17 @@ export async function viewTask({ token, _id }) {
     throw new Error(error.message);
   }
 }
+
+export async function updateTask({ token, _id, updatedData }) {
+    try {
+      const response = await axios.put(`${API_URL}/${_id}`, updatedData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": '',
+        },
+      });
+      return response.data.tasks;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }

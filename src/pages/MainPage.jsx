@@ -1,6 +1,6 @@
 import Header from "../components/Header/Header";
 import Main from "../components/Main/Main";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
 import { fetchTasks } from "../services/api";
 
@@ -8,6 +8,7 @@ const MainPage = ({setIsAuth}) => {
   const [loading, setLoading] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState("");
+  const location = useLocation(); // ← добавляем
 
   const getTasks = useCallback(async () => {
     try {
@@ -33,6 +34,12 @@ const MainPage = ({setIsAuth}) => {
 useEffect(() => {
   getTasks();
 }, [getTasks]);
+
+useEffect(() => {
+  if (location.pathname === '/') {
+    getTasks();
+  }
+}, [location.pathname, getTasks]);
 
   return (
     <>
