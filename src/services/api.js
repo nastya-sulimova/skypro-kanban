@@ -41,3 +41,17 @@ export async function updateTask({ token, _id, updatedData }) {
       throw new Error(error.message);
     }
   }
+
+  export async function postTask({ token, newTask }) {
+    try {
+      const response = await axios.post(API_URL, newTask, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": '',
+        },
+      });
+      return response.data.tasks;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }

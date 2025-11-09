@@ -25,7 +25,7 @@ const MainPage = ({setIsAuth}) => {
       }
     } catch (err) {
       console.error("Ошибка при загрузке:", err);
-      setError(err.message);
+      setError("Ошибка загрузки. Обновите страницу или попробуйте позже.");
     } finally {
       setLoading(false);
     }

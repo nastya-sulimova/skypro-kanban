@@ -7,13 +7,18 @@ import {
   MainContent,
 } from "./Main.styled";
 
-function Main({ loading, tasks }) {
+function Main({ loading, tasks, error }) {
 
   return (
     <MainContainer>
       <Container>
         <MainBlock>
           <MainContent>
+          {error && (
+            <div style={{ color: 'red', textAlign: 'center', padding: '20px' }}>
+              {error}
+            </div>
+          )}
             {loading ? (
               <CardLoader />
             ) : (
