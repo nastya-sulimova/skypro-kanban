@@ -1,6 +1,6 @@
 import PopBrowseEdit from "../components/popups/PopBrowse/PopBrowseEdit";
 import { OverlayEditPage } from "./LogOutPage";
-import { updateTask, viewTask } from "../services/api";
+import { updateTask, viewTask, deleteTask } from "../services/api";
 import { useCallback, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -52,6 +52,21 @@ const EditCardPage = () => {
     getTask();
   }, [getTask]);
 
+  const handleDelete = async () => {
+      try {
+        setLoading(true);
+        const token = "bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck";
+  
+        await deleteTask({ token, _id: id });
+        navigate("/");
+      } catch (err) {
+        console.error("Ошибка при удалении:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
   return (
     <OverlayEditPage>
       <PopBrowseEdit
@@ -59,6 +74,7 @@ const EditCardPage = () => {
         error={error}
         loading={loading}
         onSave={handleSaveTask}
+        onDelete={handleDelete}
       />
     </OverlayEditPage>
   );

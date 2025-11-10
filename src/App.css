@@ -27,9 +27,9 @@ body  { ... } */
 } */
 
 /* потом открыть */
-/* ._hover01:hover {  
+._hover01:hover {  
   background-color: #33399b;
-} */
+}
 
 /* ._hover02:hover, .header__user:hover {
   color: #33399b;
@@ -39,10 +39,10 @@ body  { ... } */
   border-bottom-color: #33399b;
 }
 
-/* ._hover03:hover {
+._hover03:hover {
   background-color: #33399b;
   color: #FFFFFF;
-} */
+}
 /* ._hover03:hover a {
   color: #FFFFFF;
 } */

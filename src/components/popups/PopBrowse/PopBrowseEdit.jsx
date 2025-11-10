@@ -8,7 +8,7 @@ import {
 import { Topic, TopicColors } from "../../Card/Card.styled";
 import { useState, useEffect } from "react";
 
-function PopBrowseEdit({ task, error, loading, onSave }) {
+function PopBrowseEdit({ task, error, loading, onSave, onDelete }) {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -52,6 +52,41 @@ function PopBrowseEdit({ task, error, loading, onSave }) {
   const handleClose = () => {
     navigate("/");
   };
+
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  const handleDeleteClick = () => {
+    setShowDeleteConfirm(true);
+  }
+
+  const handleConfirmDelete = () => {
+    onDelete();
+    setShowDeleteConfirm(false);
+  }
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirm(false);
+  }
+
+  const DeleteConfirmation = () => {
+    return (
+      <SPopBrowse id="popBrowse">
+        <div className="pop-browse__container">
+          <div className="pop-browse__block" style={{display: "flex", flexDirection: "column", gap: "15px", alignItems:"center"}}>
+            <div style={{ display: "flex", flexDirection: "row", gap: "40px", fontSize:"18px"}}>Удалить задачу?</div>
+            <div style={{display: "flex", gap: "50px"}}>
+              <button style={{padding: "7px 20px"}} onClick={handleConfirmDelete} className="btn-browse__delete _btn-bor _hover03">Да, удалить</button>
+              <button style={{padding: "7px 20px"}} onClick={handleCancelDelete} className="btn-browse__delete _btn-bor _hover03">Отмена</button>
+            </div>
+          </div>
+        </div>
+      </SPopBrowse>
+    );
+  }
+
+  if (showDeleteConfirm) {
+    return <DeleteConfirmation />;
+  }
 
   if (loading) {
     return (
@@ -166,13 +201,13 @@ function PopBrowseEdit({ task, error, loading, onSave }) {
                   Сохранить
                 </button>
                 <button className="btn-edit__edit _btn-bor _hover03">
-                  <a href="#">Отменить</a>
+                  Отменить
                 </button>
-                <button
+                <button onClick={handleDeleteClick}
                   className="btn-edit__delete _btn-bor _hover03"
                   id="btnDelete"
                 >
-                  <a href="#">Удалить задачу</a>
+                  Удалить задачу
                 </button>
               </div>
               <button

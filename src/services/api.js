@@ -55,3 +55,17 @@ export async function updateTask({ token, _id, updatedData }) {
       throw new Error(error.message);
     }
   }
+
+  export async function deleteTask({ token, _id }) {
+    try {
+      const response = await axios.delete(`${API_URL}/${_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": '',
+        },
+      });
+      return response.data.tasks;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }

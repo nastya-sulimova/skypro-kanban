@@ -2,13 +2,48 @@ import Calendar from "./Calendar/Calendar"
 import { Link, useNavigate } from "react-router-dom"
 import { SPopBrowse, PopBrowseContent, HiddenCategories } from "./PopBrowse.styled"
 import { Topic, TopicColors } from "../../Card/Card.styled"
+import { useState } from "react"
 
-function PopBrowse({task, loading, error}) {
+function PopBrowse({task, loading, error, onDelete}) {
 
   const navigate = useNavigate();
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const handleClose = () => {
     navigate('/');
+  }
+
+  const handleDeleteClick = () => {
+    setShowDeleteConfirm(true);
+  }
+
+  const handleConfirmDelete = () => {
+    onDelete();
+    setShowDeleteConfirm(false);
+  }
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirm(false);
+  }
+
+  const DeleteConfirmation = () => {
+    return (
+      <SPopBrowse id="popBrowse">
+        <div className="pop-browse__container">
+          <div className="pop-browse__block" style={{display: "flex", flexDirection: "column", gap: "15px", alignItems:"center"}}>
+            <div style={{ display: "flex", flexDirection: "row", gap: "40px", fontSize:"18px"}}>Удалить задачу?</div>
+            <div style={{display: "flex", gap: "50px"}}>
+              <button style={{padding: "7px 20px"}} onClick={handleConfirmDelete} className="btn-browse__delete _btn-bor _hover03">Да, удалить</button>
+              <button style={{padding: "7px 20px"}} onClick={handleCancelDelete} className="btn-browse__delete _btn-bor _hover03">Отмена</button>
+            </div>
+          </div>
+        </div>
+      </SPopBrowse>
+    );
+  }
+
+  if (showDeleteConfirm) {
+    return <DeleteConfirmation />;
   }
 
    if (loading) {
@@ -74,7 +109,8 @@ function PopBrowse({task, loading, error}) {
                       ></textarea>
                     </div>
                   </form>
-                  <Calendar/>
+                  <Calendar selectedDate={task.date}
+                            onDateChange={() => {}}/>
                 </div>
                 <HiddenCategories className="theme-down__categories">
                   <p className="categories__p subttl">Категория</p>
@@ -91,8 +127,8 @@ function PopBrowse({task, loading, error}) {
                       </button>
                   </Link>
 
-                    <button className="btn-browse__delete _btn-bor _hover03">
-                      <a href="#">Удалить задачу</a>
+                    <button onClick={handleDeleteClick} className="btn-browse__delete _btn-bor _hover03">
+                      Удалить задачу
                     </button>
                   </div>
                   <button onClick={handleClose} className="btn-browse__close _btn-bg _hover01">
