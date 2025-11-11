@@ -1,41 +1,45 @@
-// import axios from "axios";
+import axios from "axios";
 
-// const USER_URL = "https://wedev-api.sky.pro/api/user";
+const USER_URL = "https://wedev-api.sky.pro/api/user";
 
-// // Функция для авторизации
-// export async function loginUser({ login, password }) {
-//   try {
-//     const response = await axios.post(`${USER_URL}/login`, {
-//       login,
-//       password,
-//     });
-//     return response.data;
-//   } catch (error) {
-//     throw new Error(error.response?.data?.error || error.message);
-//   }
-// }
+export async function loginUser({ login, password }) {
+  try {
+    const data = await axios.post(
+      `${USER_URL}/login`,
+      {
+        login,
+        password,
+      },
+      {
+        headers: {
+          "Content-Type": "",
+        },
+      }
+    );
+    return data.data.user;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+}
 
-// // Функция для регистрации
-// export async function registerUser({ login, name, password }) {
-//   try {
-//     const response = await axios.post(USER_URL, {
-//       login,
-//       name,
-//       password,
-//     });
-//     return response.data;
-//   } catch (error) {
-//     throw new Error(error.response?.data?.error || error.message);
-//   }
-// }
-
-
-
-// в идеале:
-// ЕСТЬ - получение задач из сервера - ЕСТЬ
-// ЕСТЬ - просмотр задач адекватный на основе данных из апи (слетели названия внутри карточек, категории и статусы) - ЕСТЬ
-// ЕСТЬ - редактирование та же херня + запрос на редактирование карточки - ЕСТЬ
-// ЕСТЬ - запрос на добавление задачи - ЕСТЬ
-// ЕСТЬ - запрос на удаление задачи - ЕСТЬ
-// регистрация + авторизация
+export async function registerUser({ login, name, password }) {
+  try {
+    const data = await axios.post(
+      USER_URL,
+      {
+        login,
+        name,
+        password,
+      },
+      {
+        headers: {
+          "Content-Type": "",
+        },
+      }
+    );
+    return data.data.user;
+  } catch (error) {
+    throw new Error(error.response.data.error);
+  }
+}
 

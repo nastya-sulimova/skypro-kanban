@@ -69,7 +69,10 @@ export const Wrapper = styled.div`
 `;
 
 const AppRoutes = () => {
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(() => {
+    const userInfo = localStorage.getItem('userInfo');
+    return !!userInfo;
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

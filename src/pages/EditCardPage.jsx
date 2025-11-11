@@ -17,7 +17,8 @@ const EditCardPage = () => {
       setLoading(true);
       setError("");
 
-      const token = "bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck";
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      const token = userInfo?.token;
 
       const data = await viewTask({ token, _id: id });
 
@@ -35,7 +36,9 @@ const EditCardPage = () => {
   const handleSaveTask = async (updatedData) => {
     try {
       setLoading(true);
-      const token = "bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck";
+
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      const token = userInfo?.token;
 
       await updateTask({ token, _id: id, updatedData });
 
@@ -55,7 +58,9 @@ const EditCardPage = () => {
   const handleDelete = async () => {
       try {
         setLoading(true);
-        const token = "bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck";
+
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        const token = userInfo?.token;
   
         await deleteTask({ token, _id: id });
         navigate("/");
