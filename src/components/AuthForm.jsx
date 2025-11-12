@@ -11,56 +11,148 @@ import {
   LogButton,
 } from "./AuthForm.styled";
 
+import { useState } from "react";
+import { loginUser, registerUser } from "../services/auth";
+
 const AuthForm = ({ isSignUp, setIsAuth }) => {
   const navigate = useNavigate();
-  const handleLogin = (e) => {
-    e.preventDefault();
-    setIsAuth(true);
-    navigate("/");
+
+  const [formData, setFormData] = useState({
+    name: '',
+    login: '',
+    password: '',
+  })
+
+  const [errors, setErrors] = useState({
+    name: false,
+    login: false,
+    password: false,
+  })
+
+  const [error, setError] = useState('');
+
+  const validateForm = () => {
+    const newErrors = {name: false, login: false, password: false,};
+    let isValid = true;
+
+    if(isSignUp && !formData.name.trim()) {
+      newErrors.name = true;
+      setError('Заполните все поля');
+
+      isValid = false;
+    }
+
+    if(!formData.login.trim()) {
+      newErrors.login = true;
+      setError('Заполните все поля');
+
+      isValid = false;
+    }
+
+    if(!formData.password.trim()) {
+      newErrors.password = true;
+      setError('Заполните все поля');
+
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  }
+
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
+    setErrors({...errors, [name]: false});
+    setError('');
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+    try {
+      const data = !isSignUp
+      ? await loginUser({login: formData.login, password: formData.password})
+      : await registerUser ({login: formData.login, password: formData.password, name: formData.name});
+
+      if (data) {
+        setIsAuth(true);
+        localStorage.setItem('userInfo', JSON.stringify(data));
+        navigate('/');
+      }
+    } catch (err) {
+      setError (err.message);
+    }
+  }
 
   return (
     <LogWrapper>
       <LogBox>
         <LogTitle>{isSignUp ? "Регистрация" : "Вход"}</LogTitle>
-        <LogForm action="#" id="form">
+
+        {error && (
+        <div style={{ 
+          color: 'red', 
+          fontSize: '14px', 
+          textAlign: 'center',
+          marginBottom: '10px'
+        }}>
+          {error}
+        </div>
+      )}
+
+        <LogForm id="form" onSubmit={handleSubmit}>
           <LogInputBox>
             {isSignUp && (
               <LogInput
+                $error={errors.name}
                 type="text"
                 name="name"
                 id="formname"
                 placeholder="Имя"
+                value={formData.name}
+                onChange={handleChange}
               />
             )}
             <LogInput
+              $error={errors.login}
               type="text"
               name="login"
               id="formlogin"
               placeholder="Эл. почта"
+              value={formData.login}
+              onChange={handleChange}
             />
             <LogInput
+              $error={errors.password}
               type="password"
               name="password"
               id="formpassword"
               placeholder="Пароль"
+              value={formData.password}
+              onChange={handleChange}
             />
           </LogInputBox>
 
-          <LogButton onClick={handleLogin}>
+          <LogButton >
             {isSignUp ? "Зарегистрироваться" : "Войти"}
           </LogButton>
 
           {!isSignUp && (
             <FormLinks>
               <p>Нужно зарегистрироваться?</p>
-              <Link to="/register">Регистрируйтесть здесь</Link>
+              <Link to="/register" style={{textDecoration: "underline"}}>Регистрируйтесть здесь</Link>
             </FormLinks>
           )}
           {isSignUp && (
             <FormLinks>
               <p>
-                Уже есть аккаунт? <Link to="/login">Войдите здесь</Link>
+                Уже есть аккаунт? <Link to="/login" style={{textDecoration: "underline"}}>Войдите здесь</Link>
               </p>
             </FormLinks>
           )}

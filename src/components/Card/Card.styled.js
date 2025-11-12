@@ -51,14 +51,14 @@ export const Topic = styled.div`
     line-height: 10px;
   }
   
-  background-color: ${props => topicStyles[props.topic]?.background};
-  color: ${props => topicStyles[props.topic]?.color};
+  background-color: ${props => topicStyles[props.$topic]?.background};
+  color: ${props => topicStyles[props.$topic]?.color};
 `;
 
 
 export const TopicColors = styled.p`
-  background-color: ${props => topicStyles[props.topic]?.background};
-  color: ${props => topicStyles[props.topic]?.color};
+  background-color: ${props => topicStyles[props.$topic]?.background};
+  color: ${props => topicStyles[props.$topic]?.color};
 `;
 
 export const CommonLink = styled.a`
@@ -99,6 +99,11 @@ export const CardTitle = styled.h3`
   line-height: 18px;
   color: #000000;
   margin-bottom: 10px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width:200px;
 `;
 
 export const CardDate = styled.div`

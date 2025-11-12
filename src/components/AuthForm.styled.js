@@ -74,7 +74,7 @@ export const LogTitle = styled.div`
 
 export const LogInput = styled.input`
   box-sizing: border-box;
-  border: 0.7px solid rgba(148, 166, 190, 0.4);
+  border: 0.7px solid ${props => props.$error ? 'red' : 'rgba(148, 166, 190, 0.4)'};
   border-radius: 8px;
   padding-top: 5px;
   padding-bottom: 5px;

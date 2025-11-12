@@ -69,7 +69,10 @@ export const Wrapper = styled.div`
 `;
 
 const AppRoutes = () => {
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(() => {
+    const userInfo = localStorage.getItem('userInfo');
+    return !!userInfo;
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -96,7 +99,7 @@ const AppRoutes = () => {
             </Route>
           </Route>
           <Route path="/login" element={<SignInPage setIsAuth={setIsAuth} />} />
-          <Route path="/register" element={<SignUpPage />} />
+          <Route path="/register" element={<SignUpPage setIsAuth={setIsAuth} />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Wrapper>

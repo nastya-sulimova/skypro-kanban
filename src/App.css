@@ -27,9 +27,9 @@ body  { ... } */
 } */
 
 /* потом открыть */
-/* ._hover01:hover {  
+._hover01:hover {  
   background-color: #33399b;
-} */
+}
 
 /* ._hover02:hover, .header__user:hover {
   color: #33399b;
@@ -39,10 +39,10 @@ body  { ... } */
   border-bottom-color: #33399b;
 }
 
-/* ._hover03:hover {
+._hover03:hover {
   background-color: #33399b;
   color: #FFFFFF;
-} */
+}
 /* ._hover03:hover a {
   color: #FFFFFF;
 } */
@@ -74,11 +74,11 @@ body  { ... } */
   color: #FFFFFF;
 }
 
-/* ._active-category {
+._active-category {
   opacity: 1 !important;
 }
 
-.pop-wrap {
+/* .pop-wrap {
   position: relative;
   top: 0;
   left: 0;
@@ -370,6 +370,7 @@ body  { ... } */
   border-radius: 24px;
   margin-right: 7px;
   opacity: 0.4;
+  cursor: pointer;
 }
 .categories__theme p {
   font-size: 14px;
