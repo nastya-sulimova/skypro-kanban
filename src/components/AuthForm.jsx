@@ -105,7 +105,7 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
           {error}
         </div>
       )}
-      
+
         <LogForm id="form" onSubmit={handleSubmit}>
           <LogInputBox>
             {isSignUp && (
@@ -146,13 +146,13 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
           {!isSignUp && (
             <FormLinks>
               <p>Нужно зарегистрироваться?</p>
-              <Link to="/register">Регистрируйтесть здесь</Link>
+              <Link to="/register" style={{textDecoration: "underline"}}>Регистрируйтесть здесь</Link>
             </FormLinks>
           )}
           {isSignUp && (
             <FormLinks>
               <p>
-                Уже есть аккаунт? <Link to="/login">Войдите здесь</Link>
+                Уже есть аккаунт? <Link to="/login" style={{textDecoration: "underline"}}>Войдите здесь</Link>
               </p>
             </FormLinks>
           )}
