@@ -11,11 +11,13 @@ import {
   LogButton,
 } from "./AuthForm.styled";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { loginUser, registerUser } from "../services/auth";
+import { AuthContext } from "../context/AuthContext";
 
 const AuthForm = ({ isSignUp, setIsAuth }) => {
   const navigate = useNavigate();
+  const {updateUserInfo} = useContext(AuthContext)
 
   const [formData, setFormData] = useState({
     name: '',
@@ -81,8 +83,7 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
       : await registerUser ({login: formData.login, password: formData.password, name: formData.name});
 
       if (data) {
-        setIsAuth(true);
-        localStorage.setItem('userInfo', JSON.stringify(data));
+        updateUserInfo(data);
         navigate('/');
       }
     } catch (err) {
