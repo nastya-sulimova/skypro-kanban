@@ -46,31 +46,6 @@ function PopBrowse({task, loading, error, onDelete}) {
     return <DeleteConfirmation />;
   }
 
-   if (loading) {
-    return (
-      <SPopBrowse id="popBrowse">
-        <div className="pop-browse__container">
-          <div className="pop-browse__block">
-            <div>Загрузка...</div>
-          </div>
-        </div>
-      </SPopBrowse>
-    );
-  }
-
-  if (error) {
-    return (
-      <SPopBrowse id="popBrowse">
-        <div className="pop-browse__container">
-          <div className="pop-browse__block">
-            <div>Ошибка: {error}</div>
-            <button onClick={handleClose}>Закрыть</button>
-          </div>
-        </div>
-      </SPopBrowse>
-    );
-  }
-
     return (
         <SPopBrowse id="popBrowse">
           <div className="pop-browse__container">

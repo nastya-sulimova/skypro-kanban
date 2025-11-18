@@ -1,23 +1,25 @@
 import PopBrowseEdit from "../components/popups/PopBrowse/PopBrowseEdit";
 import { OverlayEditPage } from "./LogOutPage";
-import { updateTask, viewTask, deleteTask } from "../services/api";
-import { useCallback, useState, useEffect } from "react";
+import { viewTask } from "../services/api";
+import { useCallback, useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { TaskContext } from "../context/TaskContext";
 
 const EditCardPage = () => {
-  const [loading, setLoading] = useState(false);
-  const [task, setTask] = useState({});
+  const [localLoading, setLocalLoading] = useState(false);
+  const [task, setTask] = useState(null);
   const [error, setError] = useState("");
 
   const { id } = useParams();
   const navigate = useNavigate();
+  const { editTask, removeTask } = useContext(TaskContext);
 
   const getTask = useCallback(async () => {
     try {
-      setLoading(true);
+      setLocalLoading(true);
       setError("");
 
-      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
       const token = userInfo?.token;
 
       const data = await viewTask({ token, _id: id });
@@ -29,25 +31,33 @@ const EditCardPage = () => {
       console.error("Ошибка при загрузке:", err);
       setError(err.message);
     } finally {
-      setLoading(false);
+      setLocalLoading(false);
     }
   }, [id]);
 
   const handleSaveTask = async (updatedData) => {
     try {
-      setLoading(true);
-
-      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-      const token = userInfo?.token;
-
-      await updateTask({ token, _id: id, updatedData });
-
+      setLocalLoading(true);
+      await editTask(id, updatedData);
       navigate("/", { replace: true });
     } catch (err) {
       console.error("Ошибка при сохранении:", err);
       setError(err.message);
     } finally {
-      setLoading(false);
+      setLocalLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      setLocalLoading(true);
+      await removeTask(id);
+      navigate("/");
+    } catch (err) {
+      console.error("Ошибка при удалении:", err);
+      setError(err.message);
+    } finally {
+      setLocalLoading(false);
     }
   };
 
@@ -55,29 +65,33 @@ const EditCardPage = () => {
     getTask();
   }, [getTask]);
 
-  const handleDelete = async () => {
-      try {
-        setLoading(true);
+  if (localLoading && !task) {
+    return (
+      <OverlayEditPage>
+        <div>Загрузка...</div>
+      </OverlayEditPage>
+    );
+  }
 
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        const token = userInfo?.token;
-  
-        await deleteTask({ token, _id: id });
-        navigate("/");
-      } catch (err) {
-        console.error("Ошибка при удалении:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  if (error && !task) {
+    return (
+      <OverlayEditPage>
+        <div>Ошибка: {error}</div>
+        <button onClick={() => navigate("/")}>На главную</button>
+      </OverlayEditPage>
+    );
+  }
+
+  if (!task) {
+    return null;
+  }
 
   return (
     <OverlayEditPage>
       <PopBrowseEdit
         task={task}
         error={error}
-        loading={loading}
+        loading={localLoading}
         onSave={handleSaveTask}
         onDelete={handleDelete}
       />
