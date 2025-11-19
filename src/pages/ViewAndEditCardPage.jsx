@@ -43,7 +43,11 @@ const ViewAndEditCardPage = () => {
   }, [id, navigate]);
 
   useEffect(() => {
-    getTask();
+    const timer = setTimeout(() => {
+      getTask();
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, [getTask]);
 
   const handleDelete = async () => {

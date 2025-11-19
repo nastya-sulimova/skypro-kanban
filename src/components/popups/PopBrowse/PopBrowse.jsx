@@ -96,7 +96,9 @@ function PopBrowse({task, onDelete}) {
                 <div className="pop-browse__btn-browse ">
                   <div className="btn-group">
 
-                  <Link to={`/card/${task._id}/edit`} target="_self">
+                  <Link to={`/card/${task._id}/edit`} 
+                  state={{ task }}
+                  target="_self">
                     <button className="btn-browse__edit _btn-bor _hover03">
                         Редактировать задачу
                       </button>

@@ -2,12 +2,15 @@ import PopBrowseEdit from "../components/popups/PopBrowse/PopBrowseEdit";
 import { OverlayEditPage } from "./LogOutPage";
 import { viewTask } from "../services/api";
 import { useCallback, useState, useEffect, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { TaskContext } from "../context/TaskContext";
 
 const EditCardPage = () => {
+  const location = useLocation();
+  const taskFromState = location.state?.task;
+
   const [localLoading, setLocalLoading] = useState(false);
-  const [task, setTask] = useState(null);
+  const [task, setTask] = useState(taskFromState || null);
   const [error, setError] = useState("");
 
   const { id } = useParams();
@@ -15,6 +18,11 @@ const EditCardPage = () => {
   const { editTask, removeTask } = useContext(TaskContext);
 
   const getTask = useCallback(async () => {
+     if (taskFromState) {
+      setTask(taskFromState);
+      return;
+    }
+
     try {
       setLocalLoading(true);
       setError("");
@@ -62,8 +70,14 @@ const EditCardPage = () => {
   };
 
   useEffect(() => {
-    getTask();
-  }, [getTask]);
+    if (!task) {
+      const timer = setTimeout(() => {
+        getTask();
+      }, 150);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [getTask, task]);
 
   if (localLoading && !task) {
     return (
