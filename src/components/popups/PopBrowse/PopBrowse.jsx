@@ -4,7 +4,7 @@ import { SPopBrowse, PopBrowseContent, HiddenCategories } from "./PopBrowse.styl
 import { Topic, TopicColors } from "../../Card/Card.styled"
 import { useState } from "react"
 
-function PopBrowse({task, loading, error, onDelete}) {
+function PopBrowse({task, onDelete}) {
 
   const navigate = useNavigate();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
