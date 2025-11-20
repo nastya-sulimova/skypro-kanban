@@ -1,6 +1,5 @@
 import PopBrowse from "../components/popups/PopBrowse/PopBrowse";
 import { Overlay } from "./LogOutPage";
-// import { Outlet } from "react-router-dom";
 import { viewTask } from "../services/api";
 import { useCallback, useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -101,13 +100,9 @@ const ViewAndEditCardPage = () => {
     <Overlay>
       <PopBrowse
         task={task}
-        // error={error}
-        // loading={loading}
-        // isEdit={isEdit}
         onDelete={handleDelete}
         onSave={handleSaveTask}
       />
-      {/* <Outlet /> */}
     </Overlay>
   );
 };
