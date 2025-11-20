@@ -11,8 +11,6 @@ const ViewAndEditCardPage = () => {
   const [task, setTask] = useState(null);
   const [error, setError] = useState("");
 
-  // const [isEdit, setIsEdit] = useState(false);
-
   const { id } = useParams();
   const navigate = useNavigate();
   const { editTask, removeTask } = useContext(TaskContext);

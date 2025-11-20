@@ -9,6 +9,25 @@ function PopBrowse({task, onDelete, onSave}) {
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    status: "",
+    topic: "",
+    date: "",
+  });
+
+  useEffect(() => {
+    if (task && task._id) {
+      setFormData({
+        title: task.title || "",
+        description: task.description || "",
+        status: task.status || "",
+        topic: task.topic || "",
+        date: task.date || "",
+      });
+    }
+  }, [task]);
 
   const handleClose = () => {
     navigate('/');
@@ -54,26 +73,6 @@ function PopBrowse({task, onDelete, onSave}) {
   const handleCancelEdit = () => {
     setIsEdit(false);
   }
-
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    status: "",
-    topic: "",
-    date: "",
-  });
-
-  useEffect(() => {
-    if (task && task._id) {
-      setFormData({
-        title: task.title || "",
-        description: task.description || "",
-        status: task.status || "",
-        topic: task.topic || "",
-        date: task.date || "",
-      });
-    }
-  }, [task]);
 
   const handleSave = () => {
     const updatedData = {
