@@ -1,6 +1,6 @@
 import PopBrowse from "../components/popups/PopBrowse/PopBrowse";
 import { Overlay } from "./LogOutPage";
-import { Outlet } from "react-router-dom";
+// import { Outlet } from "react-router-dom";
 import { viewTask } from "../services/api";
 import { useCallback, useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -11,9 +11,11 @@ const ViewAndEditCardPage = () => {
   const [task, setTask] = useState(null);
   const [error, setError] = useState("");
 
+  // const [isEdit, setIsEdit] = useState(false);
+
   const { id } = useParams();
   const navigate = useNavigate();
-  const { removeTask } = useContext(TaskContext);
+  const { editTask, removeTask } = useContext(TaskContext);
 
   const getTask = useCallback(async () => {
     try {
@@ -63,6 +65,19 @@ const ViewAndEditCardPage = () => {
     }
   };
 
+  const handleSaveTask = async (updatedData) => {
+    try {
+      setLoading(true);
+      await editTask(id, updatedData);
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.error("Ошибка при сохранении:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading && !task) {
     return (
       <Overlay>
@@ -88,11 +103,13 @@ const ViewAndEditCardPage = () => {
     <Overlay>
       <PopBrowse
         task={task}
-        error={error}
-        loading={loading}
+        // error={error}
+        // loading={loading}
+        // isEdit={isEdit}
         onDelete={handleDelete}
+        onSave={handleSaveTask}
       />
-      <Outlet />
+      {/* <Outlet /> */}
     </Overlay>
   );
 };

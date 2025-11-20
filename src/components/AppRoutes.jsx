@@ -8,7 +8,6 @@ import SignInPage from "../pages/SignInPage";
 import SignUpPage from "../pages/SignUpPage";
 import ViewAndEditCardPage from "../pages/ViewAndEditCardPage";
 import styled, { createGlobalStyle } from "styled-components";
-import EditCardPage from "../pages/EditCardPage";
 import PrivateRoute from "./PrivateRoute";
 
 const GlobalStyle = createGlobalStyle`
@@ -93,9 +92,7 @@ const AppRoutes = () => {
             >
               <Route path="/exit" element={<LogOutPage />} />
               <Route path="/card/add" element={<CreateNewCardPage />} />
-              <Route path="/card/:id" element={<ViewAndEditCardPage />}>
-                <Route path="/card/:id/edit" element={<EditCardPage />} />
-              </Route>
+              <Route path="/card/:id" element={<ViewAndEditCardPage />} />
             </Route>
           </Route>
           <Route path="/login" element={<SignInPage setIsAuth={setIsAuth} />} />
