@@ -18,7 +18,6 @@ export const TaskProvider = ({ children }) => {
       setTasks(data || []);
     } catch (err) {
       setError(err.message);
-      console.error("Ошибка загрузки задач", err.message);
     } finally {
       setLoading(false);
     }
@@ -27,7 +26,20 @@ export const TaskProvider = ({ children }) => {
   const addTask = async (newTaskData) => {
     try {
       const data = await postTask({ token: user.token, newTask: newTaskData });
-      await loadTasks();
+
+      if (data && Array.isArray(data)) {
+        setTasks(data);
+      } else if (data && data.tasks) {
+        setTasks(data.tasks);
+      } else if (data && data[0]) {
+        setTasks((prev) => {
+          const filtered = prev.filter((task) => task._id !== data[0]._id);
+          return [...filtered, data[0]];
+        });
+      } else {
+        await loadTasks();
+      }
+
       return data;
     } catch (err) {
       setError(err.message);
@@ -37,13 +49,17 @@ export const TaskProvider = ({ children }) => {
 
   const editTask = async (taskId, updatedData) => {
     try {
-      const data = await updateTask({
+      await updateTask({
         token: user.token,
         _id: taskId,
         updatedData,
       });
-      await loadTasks();
-      return data;
+
+      setTasks((prev) =>
+        prev.map((task) =>
+          task._id === taskId ? { ...task, ...updatedData } : task
+        )
+      );
     } catch (err) {
       setError(err.message);
       throw err;
@@ -53,7 +69,8 @@ export const TaskProvider = ({ children }) => {
   const removeTask = async (taskId) => {
     try {
       await deleteTask({ token: user.token, _id: taskId });
-      await loadTasks();
+
+      setTasks((prev) => prev.filter((task) => task._id !== taskId));
     } catch (err) {
       setError(err.message);
       throw err;
