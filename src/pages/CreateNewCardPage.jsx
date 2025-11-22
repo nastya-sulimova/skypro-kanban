@@ -1,26 +1,21 @@
-import PopNewCard from "../components/popups/PopNewCard/PopNewCard"
-import { Overlay } from "./LogOutPage"
-import { postTask } from "../services/api";
-import { useState } from "react";
+import PopNewCard from "../components/popups/PopNewCard/PopNewCard";
+import { Overlay } from "./LogOutPage";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { TaskContext } from "../context/TaskContext";
 
 const CreateNewCardPage = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");   
+  const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { addTask } = useContext(TaskContext);
 
-  const handleCreateTask  = async (newTaskData) => {
+  const handleCreateTask = async (newTaskData) => {
     try {
       setLoading(true);
       setError("");
-
-      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-      const token = userInfo?.token;
-
-      await postTask({ token, newTask: newTaskData });
-
+      await addTask(newTaskData);
       navigate("/", { replace: true });
-     
     } catch (err) {
       console.error("Ошибка при создании:", err);
       setError(err.message);
@@ -31,12 +26,9 @@ const CreateNewCardPage = () => {
 
   return (
     <Overlay>
-      <PopNewCard 
-        error={error}
-        loading={loading} 
-        onCreate={handleCreateTask}/>
+      <PopNewCard error={error} loading={loading} onCreate={handleCreateTask} />
     </Overlay>
-  )
-}
+  );
+};
 
-export default CreateNewCardPage
+export default CreateNewCardPage;
