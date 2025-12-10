@@ -20,29 +20,3 @@ export const HiddenCategories = styled.div`
   display: none;
   margin-bottom: 20px;
 `
-
-
-
-// .pop-browse__content {
-//     display: block;
-//     text-align: left;
-//   }   PopBrowseContent
-
-
-//   .pop-browse__content .categories__theme {
-//     opacity: 1;
-//   }
-
-
-
-//   .pop-browse__content .theme-down {
-//     display: none;
-//     margin-bottom: 20px;
-//   }  HiddenCategories
-
-
-
-
-//   .pop-browse__content .theme-top {
-//     display: block;
-//   }

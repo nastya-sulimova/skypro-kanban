@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const SNotFoundPage = styled.div`
   display: flex;
@@ -16,12 +17,27 @@ const SNotFoundPage = styled.div`
   height: 100vh;
 `;
 
+const NotFoundPageLink = styled(Link)`
+  color: rgba(148, 166, 190, 1);
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 100%;
+  text-transform: uppercase;
+  text-align: center;
+`;
+
 const NotFoundPage = () => {
   return (
-    <SNotFoundPage>
-      <div>404</div>
-      <div>Страница не найдена</div>
-    </SNotFoundPage>
+    <>
+      <div style={{ marginTop: "20px", marginLeft: "20px" }}>
+        <NotFoundPageLink to={"/"}>Главная страница</NotFoundPageLink>
+      </div>
+      <SNotFoundPage>
+        <div>404</div>
+        <div>Страница не найдена</div>
+      </SNotFoundPage>
+    </>
   );
 };
 
