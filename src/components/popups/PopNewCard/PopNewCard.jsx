@@ -28,9 +28,40 @@ function PopNewCard({ error, loading, onCreate }) {
     date: "",
   });
 
+  const [validationErrors, setValidationErrors] = useState({});
+  const [showValidationError, setShowValidationError] = useState(false);
+
   const navigate = useNavigate();
 
+  const validateForm = () => {
+    const errors = {};
+
+    if (!formData.title.trim()) {
+      errors.title = "Название задачи обязательно";
+    }
+
+    if (!formData.description.trim()) {
+      errors.description = "Описание задачи обязательно";
+    }
+
+    if (!formData.topic) {
+      errors.topic = "Выберите категорию";
+    }
+
+    if (!formData.date) {
+      errors.date = "Укажите срок исполнения";
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleCreate = () => {
+    if (!validateForm()) {
+      setShowValidationError(true);
+      return;
+    }
+
     const newTaskData = {
       title: formData.title,
       topic: formData.topic,
@@ -41,6 +72,7 @@ function PopNewCard({ error, loading, onCreate }) {
       status: "Без статуса",
     };
     onCreate(newTaskData);
+    setShowValidationError(false);
   };
 
   const handleDateChange = (newDate) => {
@@ -52,6 +84,56 @@ function PopNewCard({ error, loading, onCreate }) {
 
   const handleClose = () => {
     navigate("/");
+  };
+
+  const ValidationErrorModal = () => {
+    if (!showValidationError) return null;
+
+    const errorMessages = Object.values(validationErrors);
+
+    return (
+      <div
+        className="pop-new-card__validation-error"
+        style={{
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          background: "white",
+          padding: "30px",
+          borderRadius: "10px",
+          boxShadow: "0 5px 20px rgba(0,0,0,0.2)",
+          zIndex: 1000,
+          maxWidth: "400px",
+        }}
+      >
+        <h4 style={{ marginBottom: "15px", color: "#d32f2f" }}>
+          ⚠️ Заполните обязательные поля:
+        </h4>
+        <ul style={{ marginBottom: "20px", paddingLeft: "20px" }}>
+          {errorMessages.map((msg, idx) => (
+            <li key={idx} style={{ marginBottom: "5px", color: "#555" }}>
+              {msg}
+            </li>
+          ))}
+        </ul>
+        <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+          <button
+            onClick={() => setShowValidationError(false)}
+            style={{
+              padding: "8px 20px",
+              background: "#565EEF",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            Понятно
+          </button>
+        </div>
+      </div>
+    );
   };
 
   if (loading) {
@@ -88,6 +170,22 @@ function PopNewCard({ error, loading, onCreate }) {
 
   return (
     <PopNewCardStyled id="popNewCard">
+      <ValidationErrorModal />
+
+      {showValidationError && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0,0,0,0.5)",
+            zIndex: 999,
+          }}
+        />
+      )}
+
       <div className="pop-new-card__container">
         <div className="pop-new-card__block">
           <div className="pop-new-card__content">
@@ -113,9 +211,12 @@ function PopNewCard({ error, loading, onCreate }) {
                     placeholder="Введите название задачи..."
                     autoFocus
                     value={formData.title}
-                    onChange={(e) =>
-                      setFormData({ ...formData, title: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setFormData({ ...formData, title: e.target.value });
+                      if (validationErrors.title) {
+                        setValidationErrors((prev) => ({ ...prev, title: "" }));
+                      }
+                    }}
                   />
                 </div>
                 <div className="form-new__block">
@@ -128,15 +229,26 @@ function PopNewCard({ error, loading, onCreate }) {
                     id="textArea"
                     placeholder="Введите описание задачи..."
                     value={formData.description}
-                    onChange={(e) =>
-                      setFormData({ ...formData, description: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setFormData({ ...formData, description: e.target.value });
+                      if (validationErrors.description) {
+                        setValidationErrors((prev) => ({
+                          ...prev,
+                          description: "",
+                        }));
+                      }
+                    }}
                   ></textarea>
                 </div>
               </form>
               <Calendar
                 selectedDate={formData.date}
-                onDateChange={handleDateChange}
+                onDateChange={(newDate) => {
+                  handleDateChange(newDate);
+                  if (validationErrors.date) {
+                    setValidationErrors((prev) => ({ ...prev, date: "" }));
+                  }
+                }}
               />
             </div>
             <div className="pop-new-card__categories categories">
@@ -153,16 +265,18 @@ function PopNewCard({ error, loading, onCreate }) {
                     className={`categories__theme ${category.class} ${
                       formData.topic === category.name ? "_active-category" : ""
                     }`}
-                    onClick={() =>
-                      setFormData({ ...formData, topic: category.name })
-                    }
+                    onClick={() => {
+                      setFormData({ ...formData, topic: category.name });
+                      if (validationErrors.topic) {
+                        setValidationErrors((prev) => ({ ...prev, topic: "" }));
+                      }
+                    }}
                     style={{ cursor: "pointer" }}
                   >
                     <p className={category.class}>{category.name}</p>
                   </div>
                 ))}
               </div>
-
             </div>
             <button
               onClick={handleCreate}
