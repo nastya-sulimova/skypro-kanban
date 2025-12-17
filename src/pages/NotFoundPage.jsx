@@ -18,7 +18,7 @@ const SNotFoundPage = styled.div`
 `;
 
 const NotFoundPageLink = styled(Link)`
-  color: rgba(148, 166, 190, 1);
+  color: white;
   font-family: Roboto;
   font-size: 20px;
   font-weight: 600;
@@ -30,9 +30,18 @@ const NotFoundPageLink = styled(Link)`
 const NotFoundPage = () => {
   return (
     <>
-      <div style={{ marginTop: "20px", marginLeft: "20px" }}>
+      <button
+        style={{
+          marginTop: "20px",
+          marginLeft: "20px",
+          borderRadius: "4px",
+          background: "rgb(100 107 237)",
+          border: "none",
+          padding: "10px",
+        }}
+      >
         <NotFoundPageLink to={"/"}>Главная страница</NotFoundPageLink>
-      </div>
+      </button>
       <SNotFoundPage>
         <div>404</div>
         <div>Страница не найдена</div>
