@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
 import CreateNewCardPage from "../pages/CreateNewCardPage";
 import LogOutPage from "../pages/LogOutPage";
 import MainPage from "../pages/MainPage";
@@ -68,35 +67,20 @@ export const Wrapper = styled.div`
 `;
 
 const AppRoutes = () => {
-  const [isAuth, setIsAuth] = useState(() => {
-    const userInfo = localStorage.getItem('userInfo');
-    return !!userInfo;
-  });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
-
   return (
     <>
       <GlobalStyle />
       <Wrapper>
         <Routes>
-          <Route element={<PrivateRoute isAuth={isAuth} />}>
-            <Route
-              path="/"
-              element={<MainPage setIsAuth={setIsAuth} loading={loading} />}
-            >
+          <Route element={<PrivateRoute />}>
+            <Route path="/" element={<MainPage />}>
               <Route path="/exit" element={<LogOutPage />} />
               <Route path="/card/add" element={<CreateNewCardPage />} />
               <Route path="/card/:id" element={<ViewAndEditCardPage />} />
             </Route>
           </Route>
-          <Route path="/login" element={<SignInPage setIsAuth={setIsAuth} />} />
-          <Route path="/register" element={<SignUpPage setIsAuth={setIsAuth} />} />
+          <Route path="/login" element={<SignInPage />} />
+          <Route path="/register" element={<SignUpPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Wrapper>

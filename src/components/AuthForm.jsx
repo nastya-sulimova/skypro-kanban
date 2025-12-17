@@ -15,7 +15,7 @@ import { useContext, useState } from "react";
 import { loginUser, registerUser } from "../services/auth";
 import { AuthContext } from "../context/AuthContext";
 
-const AuthForm = ({ isSignUp, setIsAuth }) => {
+const AuthForm = ({ isSignUp }) => {
   const navigate = useNavigate();
   const {updateUserInfo} = useContext(AuthContext)
 
