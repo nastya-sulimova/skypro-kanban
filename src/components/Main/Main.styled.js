@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const MainContainer = styled.main`
   width: 100%;
-  background-color: #EAEEF6;
+  background-color: #eaeef6;
   height: 100vh;
 `;
 
@@ -23,4 +23,10 @@ export const MainContent = styled.div`
   width: 100%;
   display: flex;
   gap: 19px;
+`;
+
+export const MainContentError = styled.div`
+  color: red;
+  text-align: center;
+  padding: 20px;
 `;

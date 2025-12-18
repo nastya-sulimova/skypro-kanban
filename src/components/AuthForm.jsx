@@ -8,7 +8,7 @@ import {
   FormLinks,
   LogInput,
   LogInputBox,
-  LogButton,
+  LogButton, AuthErrorMsg, 
 } from "./AuthForm.styled";
 
 import { useContext, useState } from "react";
@@ -97,14 +97,9 @@ const AuthForm = ({ isSignUp }) => {
         <LogTitle>{isSignUp ? "Регистрация" : "Вход"}</LogTitle>
 
         {error && (
-        <div style={{ 
-          color: 'red', 
-          fontSize: '14px', 
-          textAlign: 'center',
-          marginBottom: '10px'
-        }}>
+        <AuthErrorMsg>
           {error}
-        </div>
+        </AuthErrorMsg>
       )}
 
         <LogForm id="form" onSubmit={handleSubmit}>

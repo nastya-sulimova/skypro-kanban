@@ -6,7 +6,8 @@ import NotFoundPage from "../pages/NotFoundPage";
 import SignInPage from "../pages/SignInPage";
 import SignUpPage from "../pages/SignUpPage";
 import ViewAndEditCardPage from "../pages/ViewAndEditCardPage";
-import styled, { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from "styled-components";
+import { Wrapper } from "./AppRoutes.styled";
 import PrivateRoute from "./PrivateRoute";
 
 const GlobalStyle = createGlobalStyle`
@@ -56,14 +57,6 @@ body {
   font-family: "Roboto", Arial, Helvetica, sans-serif;
   color: #000000;
 }
-`;
-
-export const Wrapper = styled.div`
-  max-width: 100%;
-  width: 100vw;
-  min-height: 100vh;
-  overflow: hidden;
-  background-color: #f1f1f1;
 `;
 
 const AppRoutes = () => {

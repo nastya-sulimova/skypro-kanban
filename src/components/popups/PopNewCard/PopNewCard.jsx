@@ -1,24 +1,16 @@
 import Calendar from "./Calendar/Calendar";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
-// Временный styled-component
-const PopNewCardStyled = styled.div`
-  width: 100%;
-  min-width: 375px;
-  height: 100%;
-  min-height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 6;
-
-  &:target {
-    display: block;
-  }
-`;
+import {
+  PopNewCardStyled,
+  PopNewCardValidError,
+  ValidErrorTitle,
+  ValidErrorList,
+  ValidErrorItem,
+  ValidButtonBlock,
+  ValidButton,
+} from "./PopNewCard.styled";
 
 function PopNewCard({ error, loading, onCreate }) {
   const [formData, setFormData] = useState({
@@ -92,47 +84,19 @@ function PopNewCard({ error, loading, onCreate }) {
     const errorMessages = Object.values(validationErrors);
 
     return (
-      <div
-        className="pop-new-card__validation-error"
-        style={{
-          position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          background: "white",
-          padding: "30px",
-          borderRadius: "10px",
-          boxShadow: "0 5px 20px rgba(0,0,0,0.2)",
-          zIndex: 1000,
-          maxWidth: "400px",
-        }}
-      >
-        <h4 style={{ marginBottom: "15px", color: "#d32f2f" }}>
-          ⚠️ Заполните обязательные поля:
-        </h4>
-        <ul style={{ marginBottom: "20px", paddingLeft: "20px" }}>
+      <PopNewCardValidError>
+        <ValidErrorTitle>⚠️ Заполните обязательные поля:</ValidErrorTitle>
+        <ValidErrorList>
           {errorMessages.map((msg, idx) => (
-            <li key={idx} style={{ marginBottom: "5px", color: "#555" }}>
-              {msg}
-            </li>
+            <ValidErrorItem key={idx}>{msg}</ValidErrorItem>
           ))}
-        </ul>
-        <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
-          <button
-            onClick={() => setShowValidationError(false)}
-            style={{
-              padding: "8px 20px",
-              background: "#565EEF",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-          >
+        </ValidErrorList>
+        <ValidButtonBlock>
+          <ValidButton onClick={() => setShowValidationError(false)}>
             Понятно
-          </button>
-        </div>
-      </div>
+          </ValidButton>
+        </ValidButtonBlock>
+      </PopNewCardValidError>
     );
   };
 

@@ -1,5 +1,5 @@
 import PopNewCard from "../components/popups/PopNewCard/PopNewCard";
-import { Overlay } from "./LogOutPage";
+import { Overlay } from "../components/popups/PopUser/PopUser.styled";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { TaskContext } from "../context/TaskContext";

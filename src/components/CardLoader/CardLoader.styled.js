@@ -32,6 +32,12 @@ export const SkeletonCard = styled.div`
   align-items: center;
 `;
 
+export const CardLoadingBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
 export const StatusTitle = styled.div`
   padding: 0 10px;
   margin: 15px 0;

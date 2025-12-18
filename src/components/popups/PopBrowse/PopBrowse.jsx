@@ -1,6 +1,23 @@
 import Calendar from "./Calendar/Calendar"
 import { useNavigate } from "react-router-dom"
-import { SPopBrowse, PopBrowseContent, HiddenCategories } from "./PopBrowse.styled"
+import { 
+  SPopBrowse, 
+  PopBrowseContent, 
+  HiddenCategories, 
+  PopBrowseDeleteConfirm, 
+  DeleteQuestion, 
+  DeleteOptions, 
+  DeleteButtons,
+  PopBrowseValidError,
+
+} from "./PopBrowse.styled"
+import { 
+  ValidErrorTitle, 
+  ValidErrorList,
+  ValidErrorItem,
+  ValidButtonBlock,
+  ValidButton
+} from "../PopNewCard/PopNewCard.styled"
 import { Topic, TopicColors } from "../../Card/Card.styled"
 import { useState, useEffect } from "react"
 
@@ -73,13 +90,13 @@ function PopBrowse({task, onDelete, onSave}) {
     return (
       <SPopBrowse id="popBrowse">
         <div className="pop-browse__container">
-          <div className="pop-browse__block" style={{display: "flex", flexDirection: "column", gap: "15px", alignItems:"center"}}>
-            <div style={{ display: "flex", flexDirection: "row", gap: "40px", fontSize:"18px"}}>Удалить задачу?</div>
-            <div style={{display: "flex", gap: "50px"}}>
-              <button style={{padding: "7px 20px"}} onClick={handleConfirmDelete} className="btn-browse__delete _btn-bor _hover03">Да, удалить</button>
-              <button style={{padding: "7px 20px"}} onClick={handleCancelDelete} className="btn-browse__delete _btn-bor _hover03">Отмена</button>
-            </div>
-          </div>
+          <PopBrowseDeleteConfirm>
+            <DeleteQuestion>Удалить задачу?</DeleteQuestion>
+            <DeleteOptions>
+              <DeleteButtons onClick={handleConfirmDelete} className="btn-browse__delete _btn-bor _hover03">Да, удалить</DeleteButtons>
+              <DeleteButtons onClick={handleCancelDelete} className="btn-browse__delete _btn-bor _hover03">Отмена</DeleteButtons>
+            </DeleteOptions>
+          </PopBrowseDeleteConfirm>
         </div>
       </SPopBrowse>
     );
@@ -91,40 +108,21 @@ function PopBrowse({task, onDelete, onSave}) {
     const errorMessages = Object.values(validationErrors);
     
     return (
-      <div className="pop-browse__validation-error" style={{
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        background: 'white',
-        padding: '30px',
-        borderRadius: '10px',
-        boxShadow: '0 5px 20px rgba(0,0,0,0.2)',
-        zIndex: 1000,
-        maxWidth: '400px'
-      }}>
-        <h4 style={{marginBottom: '15px', color: '#d32f2f'}}>⚠️ Заполните обязательные поля:</h4>
-        <ul style={{marginBottom: '20px', paddingLeft: '20px'}}>
+      <PopBrowseValidError>
+        <ValidErrorTitle>⚠️ Заполните обязательные поля:</ValidErrorTitle>
+        <ValidErrorList>
           {errorMessages.map((msg, idx) => (
-            <li key={idx} style={{marginBottom: '5px', color: '#555'}}>{msg}</li>
+            <ValidErrorItem key={idx}>{msg}</ValidErrorItem>
           ))}
-        </ul>
-        <div style={{display: 'flex', gap: '10px', justifyContent: 'center'}}>
-          <button 
+        </ValidErrorList>
+        <ValidButtonBlock>
+          <ValidButton 
             onClick={() => setShowValidationError(false)}
-            style={{
-              padding: '8px 20px',
-              background: '#565EEF',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
           >
             Понятно
-          </button>
-        </div>
-      </div>
+          </ValidButton>
+        </ValidButtonBlock>
+      </PopBrowseValidError>
     );
   };
 

@@ -5,7 +5,7 @@ import {
   ImitationTopic,
   ImitationTitle,
   ImitationDate,
-  ImitationCardEdit,
+  ImitationCardEdit, CardLoadingBox
 } from "./CardLoader.styled";
 
 const CardLoader = () => {
@@ -20,13 +20,8 @@ const CardLoader = () => {
   return (
     <CardLoading>
       {statuses.map((title, index) => (
-        <div
+        <CardLoadingBox
           key={index}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-          }}
         >
           <StatusTitle>{title}</StatusTitle>
           <SkeletonCard>
@@ -35,7 +30,7 @@ const CardLoader = () => {
             <ImitationDate></ImitationDate>
             <ImitationCardEdit></ImitationCardEdit>
           </SkeletonCard>
-        </div>
+        </CardLoadingBox>
       ))}
     </CardLoading>
   );
