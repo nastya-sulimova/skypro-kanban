@@ -1,5 +1,5 @@
 import Card from "../Card/Card"
-import { MainColumn, ColumnTitle, Cards } from "./Column.styled";
+import { MainColumn, ColumnTitle, Cards, NoTasksMessage } from "./Column.styled";
 
 function Column({ title, tasks, loading }) {
   const safeTasks = tasks || [];
@@ -29,9 +29,9 @@ function Column({ title, tasks, loading }) {
           />
         ))}
         {filteredTasks.length === 0 && !loading && (
-          <div style={{ padding: "10px", color: "#94A6BE", textAlign: "center" }}>
+          <NoTasksMessage>
             Нет задач
-          </div>
+          </NoTasksMessage>
         )}
       </Cards>
     </MainColumn>

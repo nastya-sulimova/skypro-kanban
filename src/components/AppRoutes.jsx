@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
 import CreateNewCardPage from "../pages/CreateNewCardPage";
 import LogOutPage from "../pages/LogOutPage";
 import MainPage from "../pages/MainPage";
@@ -7,7 +6,8 @@ import NotFoundPage from "../pages/NotFoundPage";
 import SignInPage from "../pages/SignInPage";
 import SignUpPage from "../pages/SignUpPage";
 import ViewAndEditCardPage from "../pages/ViewAndEditCardPage";
-import styled, { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from "styled-components";
+import { Wrapper } from "./AppRoutes.styled";
 import PrivateRoute from "./PrivateRoute";
 
 const GlobalStyle = createGlobalStyle`
@@ -59,44 +59,21 @@ body {
 }
 `;
 
-export const Wrapper = styled.div`
-  max-width: 100%;
-  width: 100vw;
-  min-height: 100vh;
-  overflow: hidden;
-  background-color: #f1f1f1;
-`;
-
 const AppRoutes = () => {
-  const [isAuth, setIsAuth] = useState(() => {
-    const userInfo = localStorage.getItem('userInfo');
-    return !!userInfo;
-  });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
-
   return (
     <>
       <GlobalStyle />
       <Wrapper>
         <Routes>
-          <Route element={<PrivateRoute isAuth={isAuth} />}>
-            <Route
-              path="/"
-              element={<MainPage setIsAuth={setIsAuth} loading={loading} />}
-            >
+          <Route element={<PrivateRoute />}>
+            <Route path="/" element={<MainPage />}>
               <Route path="/exit" element={<LogOutPage />} />
               <Route path="/card/add" element={<CreateNewCardPage />} />
               <Route path="/card/:id" element={<ViewAndEditCardPage />} />
             </Route>
           </Route>
-          <Route path="/login" element={<SignInPage setIsAuth={setIsAuth} />} />
-          <Route path="/register" element={<SignUpPage setIsAuth={setIsAuth} />} />
+          <Route path="/login" element={<SignInPage />} />
+          <Route path="/register" element={<SignUpPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Wrapper>

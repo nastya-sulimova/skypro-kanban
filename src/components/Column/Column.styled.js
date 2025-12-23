@@ -23,3 +23,9 @@ export const Cards = styled.div`
   display: block;
   position: relative;
 `;
+
+export const NoTasksMessage = styled.div`
+  padding: 10px;
+  color: #94a6be;
+  text-align: center;
+`;

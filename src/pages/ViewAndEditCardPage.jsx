@@ -1,5 +1,5 @@
 import PopBrowse from "../components/popups/PopBrowse/PopBrowse";
-import { Overlay } from "./LogOutPage";
+import { Overlay } from "../components/popups/PopUser/PopUser.styled";
 import { viewTask } from "../services/api";
 import { useCallback, useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";

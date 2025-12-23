@@ -8,14 +8,14 @@ import {
   FormLinks,
   LogInput,
   LogInputBox,
-  LogButton,
+  LogButton, AuthErrorMsg, 
 } from "./AuthForm.styled";
 
 import { useContext, useState } from "react";
 import { loginUser, registerUser } from "../services/auth";
 import { AuthContext } from "../context/AuthContext";
 
-const AuthForm = ({ isSignUp, setIsAuth }) => {
+const AuthForm = ({ isSignUp }) => {
   const navigate = useNavigate();
   const {updateUserInfo} = useContext(AuthContext)
 
@@ -97,14 +97,9 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
         <LogTitle>{isSignUp ? "Регистрация" : "Вход"}</LogTitle>
 
         {error && (
-        <div style={{ 
-          color: 'red', 
-          fontSize: '14px', 
-          textAlign: 'center',
-          marginBottom: '10px'
-        }}>
+        <AuthErrorMsg>
           {error}
-        </div>
+        </AuthErrorMsg>
       )}
 
         <LogForm id="form" onSubmit={handleSubmit}>

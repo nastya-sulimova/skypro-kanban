@@ -1,6 +1,23 @@
 import Calendar from "./Calendar/Calendar"
 import { useNavigate } from "react-router-dom"
-import { SPopBrowse, PopBrowseContent, HiddenCategories } from "./PopBrowse.styled"
+import { 
+  SPopBrowse, 
+  PopBrowseContent, 
+  HiddenCategories, 
+  PopBrowseDeleteConfirm, 
+  DeleteQuestion, 
+  DeleteOptions, 
+  DeleteButtons,
+  PopBrowseValidError,
+
+} from "./PopBrowse.styled"
+import { 
+  ValidErrorTitle, 
+  ValidErrorList,
+  ValidErrorItem,
+  ValidButtonBlock,
+  ValidButton
+} from "../PopNewCard/PopNewCard.styled"
 import { Topic, TopicColors } from "../../Card/Card.styled"
 import { useState, useEffect } from "react"
 
@@ -9,6 +26,10 @@ function PopBrowse({task, onDelete, onSave}) {
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  
+  const [validationErrors, setValidationErrors] = useState({});
+  const [showValidationError, setShowValidationError] = useState(false);
+  
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -28,6 +49,25 @@ function PopBrowse({task, onDelete, onSave}) {
       });
     }
   }, [task]);
+
+  const validateForm = () => {
+    const errors = {};
+    
+    if (!formData.status) {
+      errors.status = "Выберите статус";
+    }
+    
+    if (!formData.description.trim()) {
+      errors.description = "Описание задачи обязательно";
+    }
+    
+    if (!formData.date) {
+      errors.date = "Укажите срок исполнения";
+    }
+    
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleClose = () => {
     navigate('/');
@@ -50,17 +90,41 @@ function PopBrowse({task, onDelete, onSave}) {
     return (
       <SPopBrowse id="popBrowse">
         <div className="pop-browse__container">
-          <div className="pop-browse__block" style={{display: "flex", flexDirection: "column", gap: "15px", alignItems:"center"}}>
-            <div style={{ display: "flex", flexDirection: "row", gap: "40px", fontSize:"18px"}}>Удалить задачу?</div>
-            <div style={{display: "flex", gap: "50px"}}>
-              <button style={{padding: "7px 20px"}} onClick={handleConfirmDelete} className="btn-browse__delete _btn-bor _hover03">Да, удалить</button>
-              <button style={{padding: "7px 20px"}} onClick={handleCancelDelete} className="btn-browse__delete _btn-bor _hover03">Отмена</button>
-            </div>
-          </div>
+          <PopBrowseDeleteConfirm>
+            <DeleteQuestion>Удалить задачу?</DeleteQuestion>
+            <DeleteOptions>
+              <DeleteButtons onClick={handleConfirmDelete} className="btn-browse__delete _btn-bor _hover03">Да, удалить</DeleteButtons>
+              <DeleteButtons onClick={handleCancelDelete} className="btn-browse__delete _btn-bor _hover03">Отмена</DeleteButtons>
+            </DeleteOptions>
+          </PopBrowseDeleteConfirm>
         </div>
       </SPopBrowse>
     );
   }
+
+  const ValidationErrorModal = () => {
+    if (!showValidationError) return null;
+    
+    const errorMessages = Object.values(validationErrors);
+    
+    return (
+      <PopBrowseValidError>
+        <ValidErrorTitle>⚠️ Заполните обязательные поля:</ValidErrorTitle>
+        <ValidErrorList>
+          {errorMessages.map((msg, idx) => (
+            <ValidErrorItem key={idx}>{msg}</ValidErrorItem>
+          ))}
+        </ValidErrorList>
+        <ValidButtonBlock>
+          <ValidButton 
+            onClick={() => setShowValidationError(false)}
+          >
+            Понятно
+          </ValidButton>
+        </ValidButtonBlock>
+      </PopBrowseValidError>
+    );
+  };
 
   if (showDeleteConfirm) {
     return <DeleteConfirmation />;
@@ -72,9 +136,16 @@ function PopBrowse({task, onDelete, onSave}) {
 
   const handleCancelEdit = () => {
     setIsEdit(false);
+    setValidationErrors({});
+    setShowValidationError(false);
   }
 
   const handleSave = () => {
+    if (!validateForm()) {
+      setShowValidationError(true);
+      return;
+    }
+    
     const updatedData = {
       title: formData.title,
       topic: formData.topic,
@@ -82,7 +153,9 @@ function PopBrowse({task, onDelete, onSave}) {
       description: formData.description,
       date: new Date(formData.date).toISOString(),
     };
+    
     onSave(updatedData);
+    setShowValidationError(false);
   };
 
   const handleDateChange = (newDate) => {
@@ -90,10 +163,34 @@ function PopBrowse({task, onDelete, onSave}) {
       ...prev,
       date: newDate,
     }));
+    if (validationErrors.date) {
+      setValidationErrors(prev => ({...prev, date: ''}));
+    }
+  };
+
+  const handleStatusChange = (newStatus) => {
+    setFormData(prev => ({...prev, status: newStatus}));
+    if (validationErrors.status) {
+      setValidationErrors(prev => ({...prev, status: ''}));
+    }
   };
 
     return (
         <SPopBrowse id="popBrowse">
+          <ValidationErrorModal />
+
+          {showValidationError && (
+            <div style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0,0,0,0.5)',
+              zIndex: 999
+            }} />
+          )}
+
           <div className="pop-browse__container">
             <div className="pop-browse__block">
               <PopBrowseContent>
@@ -114,32 +211,34 @@ function PopBrowse({task, onDelete, onSave}) {
                   }
 
                   {isEdit && 
-                    <div className="status__themes">
-                    {[
-                      "Без статуса",
-                      "Нужно сделать",
-                      "В работе",
-                      "Тестирование",
-                      "Готово",
-                    ].map((status) => (
-                      <div
-                        style={{ cursor: "pointer" }}
-                        key={status}
-                        className={`status__theme ${
-                          formData.status === status ? "_gray" : ""
-                        }`}
-                        onClick={() => setFormData({ ...formData, status })}
-                      >
-                        <p
-                          style={{
-                            color: formData.status === status ? "white" : "#94A6BE",
-                          }}
+                    <>
+                      <div className="status__themes">
+                      {[
+                        "Без статуса",
+                        "Нужно сделать",
+                        "В работе",
+                        "Тестирование",
+                        "Готово",
+                      ].map((status) => (
+                        <div
+                          style={{ cursor: "pointer" }}
+                          key={status}
+                          className={`status__theme ${
+                            formData.status === status ? "_gray" : ""
+                          }`}
+                          onClick={() => handleStatusChange(status)}
                         >
-                          {status}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
+                          <p
+                            style={{
+                              color: formData.status === status ? "white" : "#94A6BE",
+                            }}
+                          >
+                            {status}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                    </>
                   }
                 </div>
                 <div className="pop-browse__wrap">
@@ -163,16 +262,21 @@ function PopBrowse({task, onDelete, onSave}) {
                       }
                  
                       {isEdit &&
-                        <textarea
-                        className="form-browse__area"
-                        name="text"
-                        id="textArea01"
-                        value={formData.description}
-                        onChange={(e) =>
-                          setFormData({ ...formData, description: e.target.value })
-                        }
-                        placeholder="Введите описание задачи..."
-                      ></textarea>
+                        <>
+                          <textarea
+                          className="form-browse__area"
+                          name="text"
+                          id="textArea01"
+                          value={formData.description}
+                          onChange={(e) => {
+                            setFormData({ ...formData, description: e.target.value });
+                            if (validationErrors.description) {
+                              setValidationErrors(prev => ({...prev, description: ''}));
+                            }
+                          }}
+                          placeholder="Введите описание задачи..."
+                        ></textarea>
+                        </>
                       }
                     </div>
                   </form>
@@ -182,10 +286,12 @@ function PopBrowse({task, onDelete, onSave}) {
                   }
                
                   {isEdit &&
-                    <Calendar
-                    selectedDate={formData.date}
-                    onDateChange={handleDateChange}
-                  />
+                    <>
+                      <Calendar
+                      selectedDate={formData.date}
+                      onDateChange={handleDateChange}
+                    />
+                    </>
                   }
                 </div>
                 <HiddenCategories className="theme-down__categories">
@@ -197,15 +303,9 @@ function PopBrowse({task, onDelete, onSave}) {
                 {!isEdit &&
                   <div className="pop-browse__btn-browse ">
                   <div className="btn-group">
-
-                  {/* <Link to={`/card/${task._id}/edit`} 
-                  state={{ task }}
-                  target="_self"> */}
                     <button onClick={handleEditClick} className="btn-browse__edit _btn-bor _hover03">
                         Редактировать задачу
                       </button>
-                  {/* </Link> */}
-
                     <button onClick={handleDeleteClick} className="btn-browse__delete _btn-bor _hover03">
                       Удалить задачу
                     </button>
@@ -225,7 +325,7 @@ function PopBrowse({task, onDelete, onSave}) {
                     >
                       Сохранить
                     </button>
-                    <button className="btn-edit__edit _btn-bor _hover03">
+                    <button onClick={handleCancelEdit} className="btn-edit__edit _btn-bor _hover03">
                       Отменить
                     </button>
                     <button onClick={handleDeleteClick}

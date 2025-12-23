@@ -1,8 +1,8 @@
 import AuthForm from "./AuthForm"
 
-const SignUp = ({setIsAuth}) => {
+const SignUp = () => {
   return (
-    <AuthForm setIsAuth={setIsAuth} isSignUp/> 
+    <AuthForm isSignUp/> 
   )
 }
 

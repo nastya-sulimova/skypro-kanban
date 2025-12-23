@@ -49,6 +49,7 @@ export const Topic = styled.div`
     font-size: 10px;
     font-weight: 600;
     line-height: 10px;
+    margin: 5px;
   }
   
   background-color: ${props => topicStyles[props.$topic]?.background};
@@ -91,6 +92,7 @@ export const CardContent = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
+  gap: 25px;
 `;
 
 export const CardTitle = styled.h3`

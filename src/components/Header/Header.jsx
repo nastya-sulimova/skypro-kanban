@@ -18,9 +18,12 @@ import {
 } from "./Header.styled";
 import { Container } from "../Main/Main.styled";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const { user } = useContext(AuthContext);
 
   const toggleUserMenu = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
@@ -49,15 +52,15 @@ function Header() {
               </HeaderBtnMain>
             </Link>
 
-            <HeaderUserBtn onClick={toggleUserMenu}>Ivan Ivanov</HeaderUserBtn>
+            <HeaderUserBtn onClick={toggleUserMenu}>{user.name}</HeaderUserBtn>
 
             {isUserMenuOpen && (
               <HeaderPopUserBlock>
                 <HeaderPopUserBlockClose onClick={toggleUserMenu}>
                   ×
                 </HeaderPopUserBlockClose>
-                <PopUserName>Ivan Ivanov</PopUserName>
-                <PopUserMail>ivan.ivanov@gmail.com</PopUserMail>
+                <PopUserName>{user.name}</PopUserName>
+                <PopUserMail>{user.login}</PopUserMail>
                 <PopUserTheme>
                   <ThemeText>Темная тема</ThemeText>
                   <ThemeCheckbox type="checkbox" name="checkbox" />

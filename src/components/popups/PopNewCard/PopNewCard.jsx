@@ -1,24 +1,16 @@
 import Calendar from "./Calendar/Calendar";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
-// Временный styled-component
-const PopNewCardStyled = styled.div`
-  width: 100%;
-  min-width: 375px;
-  height: 100%;
-  min-height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 6;
-
-  &:target {
-    display: block;
-  }
-`;
+import {
+  PopNewCardStyled,
+  PopNewCardValidError,
+  ValidErrorTitle,
+  ValidErrorList,
+  ValidErrorItem,
+  ValidButtonBlock,
+  ValidButton,
+} from "./PopNewCard.styled";
 
 function PopNewCard({ error, loading, onCreate }) {
   const [formData, setFormData] = useState({
@@ -28,9 +20,40 @@ function PopNewCard({ error, loading, onCreate }) {
     date: "",
   });
 
+  const [validationErrors, setValidationErrors] = useState({});
+  const [showValidationError, setShowValidationError] = useState(false);
+
   const navigate = useNavigate();
 
+  const validateForm = () => {
+    const errors = {};
+
+    if (!formData.title.trim()) {
+      errors.title = "Название задачи обязательно";
+    }
+
+    if (!formData.description.trim()) {
+      errors.description = "Описание задачи обязательно";
+    }
+
+    if (!formData.topic) {
+      errors.topic = "Выберите категорию";
+    }
+
+    if (!formData.date) {
+      errors.date = "Укажите срок исполнения";
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleCreate = () => {
+    if (!validateForm()) {
+      setShowValidationError(true);
+      return;
+    }
+
     const newTaskData = {
       title: formData.title,
       topic: formData.topic,
@@ -41,6 +64,7 @@ function PopNewCard({ error, loading, onCreate }) {
       status: "Без статуса",
     };
     onCreate(newTaskData);
+    setShowValidationError(false);
   };
 
   const handleDateChange = (newDate) => {
@@ -52,6 +76,28 @@ function PopNewCard({ error, loading, onCreate }) {
 
   const handleClose = () => {
     navigate("/");
+  };
+
+  const ValidationErrorModal = () => {
+    if (!showValidationError) return null;
+
+    const errorMessages = Object.values(validationErrors);
+
+    return (
+      <PopNewCardValidError>
+        <ValidErrorTitle>⚠️ Заполните обязательные поля:</ValidErrorTitle>
+        <ValidErrorList>
+          {errorMessages.map((msg, idx) => (
+            <ValidErrorItem key={idx}>{msg}</ValidErrorItem>
+          ))}
+        </ValidErrorList>
+        <ValidButtonBlock>
+          <ValidButton onClick={() => setShowValidationError(false)}>
+            Понятно
+          </ValidButton>
+        </ValidButtonBlock>
+      </PopNewCardValidError>
+    );
   };
 
   if (loading) {
@@ -88,6 +134,22 @@ function PopNewCard({ error, loading, onCreate }) {
 
   return (
     <PopNewCardStyled id="popNewCard">
+      <ValidationErrorModal />
+
+      {showValidationError && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0,0,0,0.5)",
+            zIndex: 999,
+          }}
+        />
+      )}
+
       <div className="pop-new-card__container">
         <div className="pop-new-card__block">
           <div className="pop-new-card__content">
@@ -113,9 +175,12 @@ function PopNewCard({ error, loading, onCreate }) {
                     placeholder="Введите название задачи..."
                     autoFocus
                     value={formData.title}
-                    onChange={(e) =>
-                      setFormData({ ...formData, title: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setFormData({ ...formData, title: e.target.value });
+                      if (validationErrors.title) {
+                        setValidationErrors((prev) => ({ ...prev, title: "" }));
+                      }
+                    }}
                   />
                 </div>
                 <div className="form-new__block">
@@ -128,15 +193,26 @@ function PopNewCard({ error, loading, onCreate }) {
                     id="textArea"
                     placeholder="Введите описание задачи..."
                     value={formData.description}
-                    onChange={(e) =>
-                      setFormData({ ...formData, description: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setFormData({ ...formData, description: e.target.value });
+                      if (validationErrors.description) {
+                        setValidationErrors((prev) => ({
+                          ...prev,
+                          description: "",
+                        }));
+                      }
+                    }}
                   ></textarea>
                 </div>
               </form>
               <Calendar
                 selectedDate={formData.date}
-                onDateChange={handleDateChange}
+                onDateChange={(newDate) => {
+                  handleDateChange(newDate);
+                  if (validationErrors.date) {
+                    setValidationErrors((prev) => ({ ...prev, date: "" }));
+                  }
+                }}
               />
             </div>
             <div className="pop-new-card__categories categories">
@@ -153,16 +229,18 @@ function PopNewCard({ error, loading, onCreate }) {
                     className={`categories__theme ${category.class} ${
                       formData.topic === category.name ? "_active-category" : ""
                     }`}
-                    onClick={() =>
-                      setFormData({ ...formData, topic: category.name })
-                    }
+                    onClick={() => {
+                      setFormData({ ...formData, topic: category.name });
+                      if (validationErrors.topic) {
+                        setValidationErrors((prev) => ({ ...prev, topic: "" }));
+                      }
+                    }}
                     style={{ cursor: "pointer" }}
                   >
                     <p className={category.class}>{category.name}</p>
                   </div>
                 ))}
               </div>
-
             </div>
             <button
               onClick={handleCreate}
